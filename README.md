@@ -1,3 +1,3 @@
 # where-2-compare
 
-Compare where to go
+Compare where to go.
