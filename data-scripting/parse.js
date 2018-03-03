@@ -47,11 +47,11 @@ const get_set_url = function(url, callback){
 };
 
 var download = {};
-download.url = 'http://www.city-data.com/states';
+download.url = 'http://www.example.com/something.html';
 download.callback = function(body) {
   var $ = cheerio.load(body);
 
-  var $links = $('#group_list a');
+  var $links = $('#foo a');
 
   var links = $links.map(function(i, link){
     var $link = $(link);
@@ -66,7 +66,7 @@ download.callback = function(body) {
     return link_obj;
   }).toArray();
 
-  db.set('data.states', links).write();
+  db.set('data.foo', links).write();
 };
 
 get_set_url(download.url, download.callback);
