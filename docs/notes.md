@@ -1599,6 +1599,14 @@
 	- Glassdoor
 		- https://www.glassdoor.com/developer/index.htm
 		- https://www.glassdoor.com/developer/jobsApiActions.htm
+	- CrunchBase
+		- https://www.crunchbase.com/search/organization.companies
+	- LinkedIn
+		- https://developer.linkedin.com/
+		- https://apigee.com/resources/linkedin
+		- https://apigee.com/console/linkedin
+	- Indeed
+		- https://www.npmjs.com/package/indeed-api
 - Weather
 	- US Climate Data
 		- http://www.usclimatedata.com/
@@ -1627,15 +1635,42 @@
 		- https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=San%20Diego,%20CA
 		- https://www.opendatanetwork.com/
 	- Government Data
+		- US Census
+			- Links
+				- https://www.census.gov/developers/
+				- https://www.census.gov/data/developers/guidance/api-user-guide.Available_Data.html
+				- https://www.census.gov/data/data-tools.html
+			- Census Business Builder
+				- https://cbb.census.gov/rae/#industry0=00&geoId=06&geoType=state&dataVariable=1&dynGeo_county=06073&dynHeader=My%20region&centerX=-11008563&centerY=4338466&level=5&view=map
+				- https://cbb.census.gov/rae/#industry0=00&geoType=county&dynGeo_county=06073&dynHeader=My%20region&view=regionreport&reportType=detailed
+			- Census Explorer
+				- https://www.census.gov/censusexplorer/
+				- https://www.census.gov/censusexplorer/censusexplorer.html
+				- https://www.census.gov/censusexplorer/censusexplorer-youngadults.html
+			- Quick Facts
+				- https://www.census.gov/quickfacts/fact/dashboard/US/HSG495216#viewtop
+				- https://www.census.gov/quickfacts/geo/chart/US/HSG495216#viewtop
+			- TigerWeb
+				- https://tigerweb.geo.census.gov/tigerwebmain/TIGERweb_restmapservice.html
+			- American Fact Finder
+				- https://factfinder2.census.gov/faces/nav/jsf/pages/download_center.xhtml
+				- https://factfinder2.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_16_5YR_DP03&src=pt
+			- Data Sets
+				- https://www.census.gov/data/datasets/2017/demo/popest/nation-detail.html
+			- api.census.gov
+				- https://api.census.gov/data.html
+				- https://api.census.gov/data/2017/pep/components?for=state:*&get=INTERNATIONALMIG,LASTUPDATE,RDEATH,DOMESTICMIG,PERIOD,NATURALINC,SUMLEV,RESIDUAL,COUNTY,RNATURALINC,RNETMIG,PERIOD_DESC,NETMIG,BIRTHS,GEONAME,REGION,DEATHS,RINTERNATIONALMIG,RDOMESTICMIG,UNIVERSE,DIVISION,RBIRTH,NATION
 		- Socrata
 			- https://socratadiscovery.docs.apiary.io/#
 			- https://dev.socrata.com/consumers/getting-started.html
-		- https://www.census.gov/developers/
 		- CitySDK
 			- https://uscensusbureau.github.io/citysdk/
 			- https://github.com/uscensusbureau/citysdk
 		- WolrdBank
 			- https://datahelpdesk.worldbank.org/knowledgebase/articles/902049
+		- SocialExplorer
+			- https://www.socialexplorer.com/
+			- https://www.socialexplorer.com/tour
 		- https://catalog.data.gov/dataset?groups=climate5434&page=3
 		- https://catalog.data.gov/harvest/object/cf27bf6e-7775-4ae9-880a-2fb432539e3b
 		- https://catalog.data.gov/dataset/u-s-monthly-climate-normals-1981-2010
@@ -1648,6 +1683,16 @@
 		- US Census
 			- https://www.census.gov/data/developers/guidance.html
 			- https://factfinder.census.gov/faces/nav/jsf/pages/index.xhtml
+
+## Terms
+	- Geographic Regions
+		- Nation
+		- Region
+		- Division
+		- State
+		- County
+		- County Subdivision
+		- Place/City
 
 ## Tools
 
@@ -1664,4 +1709,5 @@
 	- https://github.com/project-open-data/db-to-api
 - CSV to API
 	- https://github.com/project-open-data/csv-to-api
-
+- apigee
+	- https://apigee.com
