@@ -42,6 +42,10 @@
 		- api.census.gov
 			- https://api.census.gov/data.html
 			- https://api.census.gov/data/2017/pep/components?for=state:*&get=INTERNATIONALMIG,LASTUPDATE,RDEATH,DOMESTICMIG,PERIOD,NATURALINC,SUMLEV,RESIDUAL,COUNTY,RNATURALINC,RNETMIG,PERIOD_DESC,NETMIG,BIRTHS,GEONAME,REGION,DEATHS,RINTERNATIONALMIG,RDOMESTICMIG,UNIVERSE,DIVISION,RBIRTH,NATION
+	- Planetos
+		- https://medium.com/planet-os/querying-and-rendering-weather-data-with-python-72ac1938fc21
+		- http://docs.planetos.com/
+			- http://data.planetos.com/datasets
 	- SocialExplorer
 		- https://www.socialexplorer.com/
 		- https://www.socialexplorer.com/tour
@@ -67,26 +71,45 @@
 			- https://www.census.gov/data/developers/guidance.html
 			- https://factfinder.census.gov/faces/nav/jsf/pages/index.xhtml
 - Weather
-	- US Climate Data
-		- http://www.usclimatedata.com/
-		- http://www.usclimatedata.com/climate/san-diego/california/united-states/usca0982
-	- etwater.com
-		- Weather Summary: https://developer-api.etwater.com/sites-dashboard/reports/weather/summary
-		- Atmoshperic Data: http://etwater.com/developer/example-code/atmosphere-api/
-	- awhere.com
-		- https://developer.awhere.com/api/reference/weather
-	- Wunderground.com
-		- https://www.wunderground.com/weather/api/d/docs?d=index
-	- Open Weather Map
-		- https://openweathermap.org/api
+	- MAIN:
+		- ftp://ftp.ncdc.noaa.gov/pub/
+		- https://www.ncdc.noaa.gov/cdo-web/datatools/normals
+	- Scripts
+		- https://github.com/swingley/ncdc-temperature-normals
+		- http://pythonhosted.org/get-weather-data/
+	- https://ropensci.org/
+	- http://iridl.ldeo.columbia.edu/
+	- Climate.gov
+		- https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation
+			- https://www.ncdc.noaa.gov/access-data-service/api/v1/data?dataset=global-marine&dataTypes=WIND_DIR,WIND_SPEED&stations=AUCE&startDate=2016-01-01&endDate=2016-01-02
+			- https://www.ncdc.noaa.gov/access-data-service/api/v1/data?dataset=global-summary-of-the-year&dataTypes=DP01,DP05,DP10,DSND,DSNW,DT00,DT32,DX32,DX70,DX90,SNOW,PRCP&stations=ASN00084027&startDate=1952-01-01&endDate=1970-12-31&includeAttributes=true&format=json
 	- National Centers for Environmental Information
+		- https://www.ncdc.noaa.gov/data-access/land-based-station-data/land-based-datasets/climate-normals/1981-2010-normals-data
+		- ftp://ftp.ncdc.noaa.gov/pub/
 		- https://www.ncdc.noaa.gov/
 		- https://www.ncdc.noaa.gov/data-access/quick-links
 		- https://www.ncdc.noaa.gov/climateatlas/
 		- https://www.ncdc.noaa.gov/cdo-web/webservices/v2#datasets
+	- awhere.com
+		- https://developer.awhere.com/api/reference/weather
+	- Open Weather Map
+		- https://openweathermap.org/api
+	- etwater.com
+		- Weather Summary: https://developer-api.etwater.com/sites-dashboard/reports/weather/summary
+		- Atmoshperic Data: http://etwater.com/developer/example-code/atmosphere-api/
+	- Wunderground.com
+		- https://www.wunderground.com/weather/api/d/docs?d=index
+	- Weatherbit.io
+		- https://www.weatherbit.io/pricing
 	- Weatherbase.com
 		- http://www.weatherbase.com/weather/weather.php3?s=9227&cityname=San-Diego-California-United-States-of-America
+	- US Climate Data
+		- http://www.usclimatedata.com/
+		- http://www.usclimatedata.com/climate/san-diego/california/united-states/usca0982
 - Misc. / Information
+	- Frictionless Data
+		- https://frictionlessdata.io/software/
+		 - 
 	- https://en.wikipedia.org/wiki/Open_data
 	- https://catalog.data.gov/dataset
 	- Wikipedia
