@@ -6,6 +6,22 @@ var path = require('path');
 var temp_symbols = ['tmax', 'tavg', 'tmin'];
 
 var map_temps = function(row){
+
+
+	return {
+		station_id: row.slice(0, 10).trim(),
+		latitude: Number(row.slice(12, 19).trim()),
+		longitude: Number(row.slice(21, 29).trim()),
+		elevation: Number(row.slice(31, 36).trim()),
+		state: row.slice(38, 39).trim(),
+		name: row.slice(41, 70).trim(),
+		gsnflag: row.slice(72, 74).trim(),
+		hcnflag: row.slice(76, 78).trim(),
+		wmoid: row.slice(80, 84).trim(),
+		method: row.slice(86, 98).trim()
+	};
+
+
 	var parts = row.split(/\s+/),
 		station_id = parts[0],
 		stat = parts[1],
