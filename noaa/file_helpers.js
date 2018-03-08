@@ -1,4 +1,22 @@
-var annual_seasonal = function(row){
+var describe_file_path = function(path){
+	
+	var path_regex = /(\w+)\/(\w+)-(\w+)-(\w+)(-([\w]+))?\.txt/,
+		path_parts = path.match(path_regex);
+
+	const [key_path, product, report_period, meteorological_element, statistic, unused, condition] = path_parts;
+
+	return {
+		full_path: path,
+		key_path: key_path,
+		product: product,
+		report_period: report_period,
+		meteorological_element: meteorological_element,
+		statistic: statistic,
+		condition: condition
+	};
+};
+
+var annual_seasonal_row = function(row){
 	/*
 	A. FORMAT OF ANNUAL/SEASONAL FILES
 	   (ann-*.txt, djf-*.txt, mam-*.txt, jja-*.txt, son-*.txt)
@@ -24,14 +42,16 @@ var annual_seasonal = function(row){
 			   section below.
 	*/
 
+	console.log(row)
+
 	return {
 		station_id: row.slice(0, 10),
-		value: row.slice(18, 22),
-		flag: row.slice(23, 23)
+		value: Number(row.slice(18, 23)),
+		flag: row.slice(23, 24).trim()
 	};
 };
 
-var monthly = function(row){
+var monthly_row = function(row){
 	/*
 	B. FORMAT OF MONTHLY FILES
 	   (mly-*.txt)
@@ -108,7 +128,7 @@ var monthly = function(row){
 	return result;
 };
 
-var hourly = function(row){
+var hourly_row = function(row){
 	/*
 	D. FORMAT OF HOURLY FILES
 	   (hly-*.txt)
@@ -232,7 +252,8 @@ var hourly = function(row){
 };
 
 module.exports = {
-	annual_seasonal: annual_seasonal,
-	monthly: monthly,
-	hourly: hourly
+	describe_file_path: describe_file_path,
+	annual_seasonal_row: annual_seasonal_row,
+	monthly_row: monthly_row,
+	hourly_row: hourly_row
 };
