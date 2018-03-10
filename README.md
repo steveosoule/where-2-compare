@@ -78,6 +78,7 @@ Compare where to go.
 	- MAIN:
 		- ftp://ftp.ncdc.noaa.gov/pub/
 		- https://www.ncdc.noaa.gov/cdo-web/datatools/normals
+		- http://kellegous.com/j/2014/02/03/pleasant-places/
 	- Scripts
 		- https://github.com/swingley/ncdc-temperature-normals
 		- http://pythonhosted.org/get-weather-data/

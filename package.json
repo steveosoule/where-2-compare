@@ -1,0 +1,19 @@
+{
+  "name": "where-2-compare",
+  "version": "0.0.1",
+  "description": "Tools & Data to help compare locations across the US\u001b[1;5D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dto move \u001b[3~\u001b[3~in the US",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steveosoule/where-2-compare.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/steveosoule/where-2-compare/issues"
+  },
+  "homepage": "https://github.com/steveosoule/where-2-compare#readme"
+}
