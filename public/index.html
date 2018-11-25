@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/favicon.png">
+    <title>Where 2 Compare</title>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <main class="container-fluid">
+        <div id="app" v-cloak>
+            <section class="row">
+                <div class="col-12 col-md-12">
+                    <nav class="btn-group w2c-mobile-nav">
+                        <a href="#search" class="btn btn-sm btn-block btn-secondary">Search</a>
+                        <a href="#map" class="btn btn-sm btn-block btn-secondary">Map</a>
+                        <a href="#filters" class="btn btn-sm btn-block btn-secondary">Filters</a>
+                        <a href="#list" class="btn btn-sm btn-block btn-secondary">List</a>
+                        <a href="#detail" class="btn btn-sm btn-block btn-secondary" v-bind:class="{ disabled: !selected_city }">Detail</a>
+                        <a href="#compare" class="btn btn-sm btn-block btn-secondary" v-bind:class="{ disabled: !sorted_compared_cities.length }">Compare</a>
+                    </nav>
+                </div>
+            </section>
+            <h2 id="search"><img src="/favicon.png" class="w2c-logo img-thumbnail"> Where 2 Compare</h2>
+            <form class="form form-inline">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>City</label>
+                        <input v-model="search_city_name" type="search" class="form-control form-control-sm" placeholder="Search for a city..." />
+                    </div>
+                    <div class="form-group">
+                        <label>Limit</label>
+                        <input v-model="search_limit" type="number" class="form-control form-control-sm" min="1" max="1000" step="1"
+                            placeholder="Filter Limit" />
+                    </div>
+                    <div class="form-group">
+                        <label>Offset</label>
+                        <input v-model="search_offset" type="number" class="form-control form-control-sm" min="0" max="30000" step="1"
+                            placeholder="Filter Offset" />
+                    </div>
+                    <div class="form-group">
+                        <label>Color</label>
+                        <select v-model="color_method" class="form-control form-control-sm">
+                            <option v-for="color_method_option in color_method_options" v-bind:value="color_method_option">
+                                {{ color_method_option | snake_to_title }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Shape Basis</label>
+                        <select v-model="radius_method" class="form-control form-control-sm">
+                            <option v-for="radius_method_option in radius_method_options" v-bind:value="radius_method_option">
+                                {{ radius_method_option | snake_to_title }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sort By</label>
+                        <select v-model="search_sort_prop" class="form-control form-control-sm">
+                            <option v-for="search_sort_prop_option in search_sort_prop_options" v-bind:value="search_sort_prop_option">
+                                {{ search_sort_prop_option | snake_to_title }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sort Direction</label>
+                        <select v-model="search_sort_dir" class="form-control form-control-sm">
+                            <option v-for="search_sort_dir_option in search_sort_dir_options" v-bind:value="search_sort_dir_option">
+                                {{ search_sort_dir_option | snake_to_title }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <b-alert show variant="info" v-show="search_limit > search_limit_max">
+                    <b>Note:</b> When the "Limit" is greater-than
+                    "{{search_limit_max}}" the results on the map are not sorted. The first {{search_limit}} have been returned from the unsorted index, and then the "Results List" are sorted by "{{search_sort_prop}}"
+                </b-alert>
+            </form>
+            <div class="row">
+                <div class="col-12" id="map">
+                    <div class="svg-wrapper">
+                        <svg width="960" height="600">
+                            <g class="svg-map"></g>
+                            <g class="svg-cities">
+                                <circle
+                                    class="svg-point"
+                                    v-for="city in mapped_cities"
+                                    :key="city._id"
+                                    v-bind:title="city.city_name"
+                                    v-bind:fill="city.color"
+                                    v-bind:r="city.svg_radius"
+                                    v-bind:stroke="city.svg_stroke"
+                                    v-bind:transform="city.svg_transform"
+                                    v-on:click="select_city(city)">
+                                </circle>
+                            </g>
+                        </svg>
+                        <b-alert show variant="info" v-show="loading" class="svg-loading">
+                            Loading...
+                        </b-alert>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-sm" v-if="sorted_compared_cities && sorted_compared_cities.length" id="compare">
+                            <tr>
+                                <th colspan="2"><h3>Comparisons</h3></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('population')">Population</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('square_miles')">Sq. Miles</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('elevation')">Elevation</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('cost_of_living_index')">Cost of Living</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('crime_index_per_year_avg')">Crime Index</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('median_household_income')">Income</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('median_house_value')">Home Value</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_tmin_amount')">Temp Min</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_tavg_amount')">Temp Avg</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_tmax_amount')">Temp Max</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_winter_tmin_amount')">Winter Temp Min</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_summer_tmax_amount')">Summer Temp Max</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_snow_amount')">Snow</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_prcp_amount')">Precp</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_prcp_avgnds_ge001hi_amount')">Days Precp</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_snwd_avgnds_ge001wi_amount')">Days Snow</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('republican_10yr_voting_rate')">Republican</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('democratic_10yr_voting_rate')">Democratic</button></th>
+                            </tr>
+                            <tr v-for="compared_city in sorted_compared_cities" :key="compared_city._id">
+                                <td>
+                                    <button class="btn btn-sm" v-on:click="toggle_compare_city(compared_city)">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-link" v-on:click="select_city(compared_city)">
+                                        {{compared_city.city_name}}, {{compared_city.state_abbr}}
+                                    </button>
+                                </td>
+                                <td>{{compared_city.population | numeric }}</td>
+                                <td>{{compared_city.square_miles | numeric }}</td>
+                                <td>{{compared_city.elevation | numeric}}</td>
+                                <td>{{compared_city.cost_of_living_index | numeric}}</td>
+                                <td>{{compared_city.crime_index_per_year_avg | numeric}}</td>
+                                <td>{{compared_city.median_household_income | numeric}}</td>
+                                <td>{{compared_city.median_house_value | numeric}}</td>
+                                <td>{{compared_city.weather_ann_tmin_amount }}</td>
+                                <td>{{compared_city.weather_ann_tavg_amount }}</td>
+                                <td>{{compared_city.weather_ann_tmax_amount }}</td>
+                                <td>{{compared_city.weather_winter_tmin_amount }}</td>
+                                <td>{{compared_city.weather_summer_tmax_amount }}</td>
+                                <td>{{compared_city.weather_ann_snow_amount }}</td>
+                                <td>{{compared_city.weather_ann_prcp_amount }}</td>
+                                <td>{{compared_city.weather_ann_prcp_avgnds_ge001hi_amount }}</td>
+                                <td>{{compared_city.weather_ann_snwd_avgnds_ge001wi_amount }}</td>
+                                <td>{{compared_city.republican_10yr_voting_rate }}</td>
+                                <td>{{compared_city.democratic_10yr_voting_rate }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <section id="filters">
+                        <h2>Filters</h2>
+                        <div v-for="facet in facets" :key="facet.code">
+                            <h3>{{ facet.name }}</h3>
+                            <div class="facet-values-wrapper">
+                                <table class="table table-sm">
+                                    <tr v-for="value in facet.values" :key="value._id">
+                                        <td class="facet-value-td--title">
+                                            <span v-if="value.hasOwnProperty('min') || value.hasOwnProperty('max')">{{ value.min | numeric }} to
+                                                {{value.max | numeric }}</span>
+                                            <span v-else-if="value._id.hasOwnProperty('min') || value._id.hasOwnProperty('max')">{{ value._id.min |
+                                                numeric }} to {{value._id.max | numeric }}</span>
+                                            <span v-else-if="typeof value._id !== 'undefined'">{{ value._id }}</span>
+                                        </td>
+                                        <td class="facet-value-td--var"><div class="facet-value-bar" v-bind:style="{ width: value.formatted_percent }"></div></td>
+                                        <td>{{ value.percent | percentage(1) }}</td>
+                                        <td>{{ value.count | numeric }}</td>
+                                        <td>
+                                            <!-- <div class="btn-group-toggle" data-toggle="button" v-on:click="toggle_facet_filter(facet.code, value._id)"> -->
+                                                <label class="btn btn-light btn-xs" v-bind:class="{active: value.is_filter}">
+                                                    <input type="checkbox" v-model="value.is_filter" value="1"> Filter
+                                                </label>
+                                            <!-- </div> -->
+                                        </td>
+                                        <td>
+                                            <!-- <div class="btn-group-toggle" data-toggle="button" v-on:click="toggle_facet_preference(facet.code, value._id)"> -->
+                                                <label class="btn btn-light btn-xs" v-bind:class="{active: value.is_preference}">
+                                                    <input type="checkbox" v-model="value.is_preference" value="1"> Prefer
+                                                </label>
+                                            <!-- </div> -->
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-12 col-md-4">
+                    <section id="list">
+                        <h2>Results List</h2>
+                        <div class="form-group">
+                            <input v-model="filter_query" type="search" class="form-control" placeholder="Filter results..." />
+                        </div>
+                        <div v-if="cities" class="list-group">
+                            <div v-for="city in filtered_cities" :key="city._id" class="list-group-item">
+                                <button class="btn btn-sm" v-on:click="add_compare_city(city)">
+                                    <i class="far fa-plus-square"></i>
+                                </button>
+                                <button class="btn btn-sm" v-on:click="select_city(city)">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-link" v-on:click="select_city(city)">{{city.city_name}}, {{city.state_abbr}}</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-12 col-md-4">
+                    <section v-if="selected_city" id="detail">
+                        <button class="btn btn-sm float-right" v-on:click="add_compare_city(selected_city)">
+                            <i class="far fa-plus-square"></i> Add to Compare
+                        </button>
+                        <h2>{{selected_city.city_name}}, {{selected_city.state_abbr}}</h2>
+                        <article v-if="selected_city_duckduckgo_answer && selected_city_duckduckgo_answer.Heading">
+                            <div class="media">
+                                <img v-bind:src="selected_city_duckduckgo_answer.Image" class="mr-3 ddg-answer__image">
+                                <div class="media-body">
+                                    <!-- <h2 clas="mt-0">{{selected_city_duckduckgo_answer.Heading}}</h2> -->
+                                    <p>
+                                        {{selected_city_duckduckgo_answer.Abstract}}
+                                        <a v-bind:href="selected_city_duckduckgo_answer.AbstractURL" target="_blank"> - Read more</a>
+                                        <hr>
+                                        <small><a v-bind:href="selected_city.duckduckgo_attribution_link" target="_blank">Results from
+                                                DuckDuckGo</a></small>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        <div class="row">
+                            <div class="col-12">
+                                <a href="https://www.zillow.com/" target="_blank" rel="nofollow"><img alt="Zillow Real Estate Information" style="border:0;" src="https://www.zillow.com/widgets/GetVersionedResource.htm?path=/static/images/powered-by-zillow.gif"></a>
+                                <iframe scrolling="no" v-bind:src="selected_city.zillow_iframe" width="430" frameborder="0" height="400"></iframe>
+                            </div>
+                        </div>
+                        <section v-if="detailed_selected_city">
+                            <article>
+                                <!-- <h3>Breadcrumbs</h3>
+                                <ul class="breadcrumb" v-if="detailed_selected_city.breadcrumbs">
+                                    <li v-for="link in detailed_selected_city.breadcrumbs" class="breadcrumb-item">
+                                        <a v-bind:href="http://www.city-data.com/'' + link.link[0]">{{link.title[0]}}</a>
+                                    </li>
+                                </ul> -->
+                                <!-- <h3>Gallery</h3>
+                                <template v-for="image in detailed_selected_city.gallery" :key="image.thumbnail">
+                                    <a v-bind:href="'http://www.city-data.com' + image.link" target="_blank" v-if="image.thumbnail" class="col-4">
+                                        <img v-bind:src="image.thumbnail" v-bind:alt="image.description" v-bind:title="image.description" class="img-thumbnail">
+                                    </a>
+                                </template> -->
+                                <article>
+                                    <h3>Weather</h3>
+                                    <img v-if="detailed_selected_city.temperature_image" v-bind:src="detailed_selected_city.temperature_image" alt="temperature image">
+                                    <img v-if="detailed_selected_city.precipitation_image" v-bind:src="detailed_selected_city.precipitation_image" alt="precipitation image">
+                                    <img v-if="detailed_selected_city.humidity_image" v-bind:src="detailed_selected_city.humidity_image" alt="humidity image">
+                                    <img v-if="detailed_selected_city.wind_image" v-bind:src="detailed_selected_city.wind_image" alt="wind image">
+                                    <img v-if="detailed_selected_city.snow_image" v-bind:src="detailed_selected_city.snow_image" alt="snow image">
+                                    <img v-if="detailed_selected_city.sunshine_image" v-bind:src="detailed_selected_city.sunshine_image" alt="sunshine image">
+                                    <img v-if="detailed_selected_city.clouds_image" v-bind:src="detailed_selected_city.clouds_image" alt="clouds image">
+                                </article>
+                                <article v-if="detailed_selected_city.natural_disasters">
+                                    <h3>Natural Disasters</h3>
+                                    <table class="table table-sm table-striped">
+                                        <tr v-for="(value, key) in detailed_selected_city.natural_disasters">
+                                            <th>{{ key | snake_to_title }}</th>
+                                            <td>{{ value | numeric }}</td>
+                                        </tr>
+                                    </table>
+                                </article>
+                                <article v-if="detailed_selected_city.education_stats">
+                                    <h3>Education</h3>
+                                    <table class="table table-sm table-striped">
+                                        <tr v-for="(value, key) in detailed_selected_city.education_stats">
+                                            <th>{{ key | snake_to_title }}</th>
+                                            <td>{{ value | percentage }}</td>
+                                        </tr>
+                                    </table>
+                                </article>
+                                <article v-if="detailed_selected_city.religions">
+                                    <h3>Religions</h3>
+                                    <table class="table table-sm table-striped">
+                                        <tr v-for="(value, key) in detailed_selected_city.religions">
+                                            <th>{{ key | snake_to_title }}</th>
+                                            <td>Percent: {{ value.adherent_percent | percentage }} | Congregations: {{ value.congregations | numeric }}</td>
+                                        </tr>
+                                    </table>
+                                </article>
+                                <article v-if="detailed_selected_city.food_stats">
+                                    <h3>Food  / Shopping</h3>
+                                    <table class="table table-sm table-striped">
+                                        <tr v-for="(value, key) in detailed_selected_city.food_stats">
+                                            <th>{{ key | snake_to_title }}</th>
+                                            <td>Count: {{ value.count.split(': ')[1] | numeric }} | Per 10k: {{ value.per_10k | numeric }}</td>
+                                        </tr>
+                                    </table>
+                                </article>
+                                <article v-if="detailed_selected_city.marital_stats">
+                                    <h3>Marriage</h3>
+                                    <table class="table table-sm table-striped">
+                                        <tr v-for="(value, key) in detailed_selected_city.marital_stats">
+                                            <th>{{ key | snake_to_title }}</th>
+                                            <td>{{ value | percentage }}</td>
+                                        </tr>
+                                    </table>
+                                </article>
+                                <article v-if="detailed_selected_city.races">
+                                    <h3>Races</h3>
+                                    <table class="table table-sm table-striped">
+                                        <tr v-for="race in detailed_selected_city.races" :key="race.race">
+                                            <th>{{ race.race }}</th>
+                                            <td>{{ race.percet | percentage }}</td>
+                                            <td>{{ race.population | numeric }}</td>
+                                        </tr>
+                                    </table>
+                                </article>
+                                <article v-if="detailed_selected_city.common_industries">
+                                    <h3>Industries</h3>
+                                    <table class="table table-sm table-striped">
+                                        <tr v-for="(value, key) in detailed_selected_city.common_industries">
+                                            <th>{{ key | snake_to_title }}</th>
+                                            <td>{{ value | percentage }}</td>
+                                        </tr>
+                                    </table>
+                                </article>
+                                <article v-if="detailed_selected_city.common_occupations">
+                                    <h3>Occupations</h3>
+                                    <table class="table table-sm table-striped">
+                                        <tr v-for="(value, key) in detailed_selected_city.common_occupations">
+                                            <th>{{ key | snake_to_title }}</th>
+                                            <td>{{ value | percentage }}</td>
+                                        </tr>
+                                    </table>
+                                </article>
+                                <article v-if="detailed_selected_city.ancestries.length">
+                                    <h3>Ancestries</h3>
+                                    <table class="table table-sm table-striped">
+                                        <tr v-for="(value, key) in detailed_selected_city.ancestries">
+                                            <th>{{ key | snake_to_title }}</th>
+                                            <td>{{ value | percentage }}</td>
+                                        </tr>
+                                    </table>
+                                </article>
+                                <article>
+                                    <h3>Crime</h3>
+                                    <table class="table table-sm table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td>Stat</td>
+                                                <td>Per Capita</td>
+                                                <td>Per Capita Trend</td>
+                                                <td>Count</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>Crime Index</th>
+                                                <td>{{detailed_selected_city.crime_index_per_year_avg_per_capita | numeric}}</td>
+                                                <td>{{_.get(detailed_selected_city, 'crime_index_per_year.per_capita_linregress.slope') | numeric}}</td>
+                                                <td>{{detailed_selected_city.crime_index_per_year_avg_count | numeric}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Murders</th>
+                                                <td>{{detailed_selected_city.murders_per_year_avg_per_capita | numeric}}</td>
+                                                <td>{{_.get(detailed_selected_city, 'murders_per_year.per_capita_linregress.slope') | numeric}}</td>
+                                                <td>{{detailed_selected_city.murders_per_year_avg_count | numeric}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Rapes</th>
+                                                <td>{{detailed_selected_city.rapes_per_year_avg_per_capita | numeric}}</td>
+                                                <td>{{_.get(detailed_selected_city, 'rapes_per_year.per_capita_linregress.slope') | numeric}}</td>
+                                                <td>{{detailed_selected_city.rapes_per_year_avg_count | numeric}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Robberies</th>
+                                                <td>{{detailed_selected_city.robberies_per_year_avg_per_capita | numeric}}</td>
+                                                <td>{{_.get(detailed_selected_city, 'robberies_per_year.per_capita_linregress.slope') | numeric}}</td>
+                                                <td>{{detailed_selected_city.robberies_per_year_avg_count | numeric}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Assaults</th>
+                                                <td>{{detailed_selected_city.assaults_per_year_avg_per_capita | numeric}}</td>
+                                                <td>{{_.get(detailed_selected_city, 'assaults_per_year.per_capita_linregress.slope') | numeric}}</td>
+                                                <td>{{detailed_selected_city.assaults_per_year_avg_count | numeric}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Burglaries</th>
+                                                <td>{{detailed_selected_city.burglaries_per_year_avg_per_capita | numeric}}</td>
+                                                <td>{{_.get(detailed_selected_city, 'burglaries_per_year.per_capita_linregress.slope') | numeric}}</td>
+                                                <td>{{detailed_selected_city.burglaries_per_year_avg_count | numeric}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Thefts</th>
+                                                <td>{{detailed_selected_city.thefts_per_year_avg_per_capita | numeric}}</td>
+                                                <td>{{_.get(detailed_selected_city, 'thefts_per_year.per_capita_linregress.slope') | numeric}}</td>
+                                                <td>{{detailed_selected_city.thefts_per_year_avg_count | numeric}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Auto Thefts</th>
+                                                <td>{{detailed_selected_city.auto_thefts_per_year_avg_per_capita | numeric}}</td>
+                                                <td>{{_.get(detailed_selected_city, 'auto_thefts_per_year.per_capita_linregress.slope') | numeric}}</td>
+                                                <td>{{detailed_selected_city.auto_thefts_per_year_avg_count | numeric}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Arsons</th>
+                                                <td>{{detailed_selected_city.arsons_per_year_avg_per_capita | numeric}}</td>
+                                                <td>{{_.get(detailed_selected_city, 'arsons_per_year.per_capita_linregress.slope') | numeric}}</td>
+                                                <td>{{detailed_selected_city.arsons_per_year_avg_count | numeric}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </article>
+                                <h3>Details</h3>
+                                <ul>
+                                    <li v-for="(value, key) in detailed_selected_city.props">
+                                        <b>{{ key | snake_to_title }}:</b>
+                                        <span v-if="typeof value === 'string'">{{ value }}</span>
+                                        <span v-else-if="value >= 1000">{{ value | numeric }}</span>
+                                        <span v-else-if="value > 0 && value < 1">{{ value | percentage }}</span>
+                                        <span v-else>{{ value }}</span>
+                                    </li>
+                                </ul>
+                            </article>
+                        </section>
+                        <table class="table table-bordered table-sm table-striped">
+                            <tr><td colspan="2"><h3>Links</h3></td>
+                            <tr><td align="right"><b>Jobs:</b></td><td><a v-bind:href="selected_city.indeed_link" target="_blank">Indeed.com</a></td></tr>
+                            <tr><td align="right"><b>Houses:</b></td><td><a v-bind:href="selected_city.zillow_link" target="_blank">Zillow.com</a></td></tr>
+                            <tr><td align="right"><b>Houses:</b></td><td><a v-bind:href="selected_city.realtor_link" target="_blank">Realtor.com</a></td></tr>
+                            <tr><td colspan="2"><h3>Stats</h3></td>
+                            <tr><td align="right"><b>Population:</b></td><td>{{selected_city.population | numeric}}</td></tr>
+                            <tr><td align="right"><b>Elevation:</b></td><td>{{selected_city.median_household_income | numeric}}</td></tr>
+                            <tr><td align="right"><b>Square Miles:</b></td><td>{{selected_city.median_house_value | numeric}}</td></tr>
+                            <tr><td colspan="2"><h3>Housing</h3></td>
+                            <tr><td align="right"><b>Median Household Income:</b></td><td>{{selected_city.median_rent | numeric}}</td></tr>
+                            <tr><td align="right"><b>Median House Value:</b></td><td>{{selected_city.cost_of_living_index}}</td></tr>
+                            <tr><td align="right"><b>Median Rent:</b></td><td>{{selected_city.elevation | numeric}}</td></tr>
+                            <tr><td colspan="2"><h3>Economy</h3></td>
+                            <tr><td align="right"><b>Cost Of Living:</b></td><td>{{selected_city.square_miles | numeric}}</td></tr>
+                            <tr><td align="right"><b>Tourist Attraction Count:</b></td><td>{{selected_city.tourist_attraction_count}}</td></tr>
+                            <tr><td align="right"><b>Unemployment:</b></td><td>{{selected_city.unemployment_rate}}</td></tr>
+                            <tr><td align="right"><b>Population Change Since 1990s:</b></td><td>{{selected_city.population_change_1990s_percent}}</td></tr>
+                            <tr><td colspan="2"><h3>Disasters</h3></td>
+                            <tr><td align="right"><b>Natural Disaster Count:</b></td><td>{{selected_city.natural_disaster_count}}</td></tr>
+                            <tr><td align="right"><b>Major Natural Disaster  Count:</b></td><td>{{selected_city.natural_disaster_major_count}}</td></tr>
+                            <tr><td align="right"><b>Natural Disaster Emergencies Count:</b></td><td>{{selected_city.natural_disaster_emergencies_count}}</td></tr>
+                            <tr><td colspan="2"><h3>Health</h3></td>
+                            <tr><td align="right"><b>Healthy Diet:</b></td><td>{{selected_city.healthy_diet_rate}}</td></tr>
+                            <tr><td align="right"><b>People Feel Bad:</b></td><td>{{selected_city.people_feel_bad_rate}}</td></tr>
+                            <tr><td align="right"><b>Air AQI:</b></td><td>{{selected_city.air_aqi}}</td></tr>
+                            <tr><td colspan="2"><h3>Politics</h3></td>
+                            <tr><td align="right"><b>Color:</b></td><td>{{selected_city.color}}</td></tr>
+                            <tr><td align="right"><b>Democratic 10yr Voting:</b></td><td>{{selected_city.democratic_10yr_voting_rate}}</td></tr>
+                            <tr><td align="right"><b>Republican 10yr Voting:</b></td><td>{{selected_city.republican_10yr_voting_rate}}</td></tr>
+                            <tr><td colspan="2"><h3>Weather</h3></td>
+                            <tr><td align="right"><b>Min Temp.:</b></td><td>{{selected_city.weather_ann_tmin_amount}}</td></tr>
+                            <tr><td align="right"><b>Average Temp.:</b></td><td>{{selected_city.weather_ann_tavg_amount}}</td></tr>
+                            <tr><td align="right"><b>Max Temp.:</b></td><td>{{selected_city.weather_ann_tmax_amount}}</td></tr>
+                            <tr><td align="right"><b>Winter Min Temp.:</b></td><td>{{selected_city.weather_winter_tmin_amount}}</td></tr>
+                            <tr><td align="right"><b>Summer Max Temp.:</b></td><td>{{selected_city.weather_summer_tmax_amount}}</td></tr>
+                            <tr><td align="right"><b>Ann. Snow:</b></td><td>{{selected_city.weather_ann_snow_amount}}</td></tr>
+                            <tr><td align="right"><b>Ann. Precipitation:</b></td><td>{{selected_city.weather_ann_prcp_amount}}</td></tr>
+                            <tr><td align="right"><b>Ann. Days with Precipitation:</b></td><td>{{selected_city.weather_ann_prcp_avgnds_ge001hi_amount}}</td></tr>
+                            <tr><td align="right"><b>Ann. Days with Snow:</b></td><td>{{selected_city.weather_ann_snwd_avgnds_ge001wi_amount}}</td></tr>
+                            <tr><td align="right"><b>Weather Station ID:</b></td><td>{{selected_city.weather_station_id}}</td></tr>
+                            <!-- <tr v-if="_.has(selected_city_duckduckgo_answer, 'Infobox.content')">
+                                <td align="right">DuckDuckGo</td>
+                                <td>
+                                    <dl>
+                                        <template v-for="content in selected_city_duckduckgo_answer.Infobox.content">
+                                            <dt>{{content.label}}</dt>
+                                            <dd>{{content.value}}</dd>
+                                        </template>
+                                    </dl>
+                                </td>
+                            </tr> -->
+                        </table>
+                        <!-- <b-modal v-model="show_selected_city_modal"></b-modal> -->
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+    <script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+    <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="https://unpkg.com/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
