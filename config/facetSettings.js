@@ -137,103 +137,120 @@ const cities = {
         mortage_real_estate_tax_cost: [{
             $bucketAuto: {
                 groupBy: '$mortage_real_estate_tax_cost',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$mortage_real_estate_tax_cost')
             }
         }],
         daytime_population_change_percent: [{
             $bucketAuto: {
                 groupBy: '$daytime_population_change_percent',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$daytime_population_change_percent')
             }
         }],
         live_and_work_in_city_percent: [{
             $bucketAuto: {
                 groupBy: '$live_and_work_in_city_percent',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$live_and_work_in_city_percent')
             }
         }],
         officers_per_1000: [{
             $bucketAuto: {
                 groupBy: '$officers_per_1000',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$officers_per_1000')
             }
         }],
         tourist_attraction_count: [{
             $bucketAuto: {
                 groupBy: '$tourist_attraction_count',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$tourist_attraction_count')
             }
         }],
         unemployment_rate: [{
             $bucketAuto: {
                 groupBy: '$unemployment_rate',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$unemployment_rate')
             }
         }],
         population_change_1990s_percent: [{
             $bucketAuto: {
                 groupBy: '$population_change_1990s_percent',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$population_change_1990s_percent')
             }
         }],
         natural_disaster_count: [{
             $bucketAuto: {
                 groupBy: '$natural_disaster_count',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$natural_disaster_count')
             }
         }],
         natural_disaster_major_count: [{
             $bucketAuto: {
                 groupBy: '$natural_disaster_major_count',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$natural_disaster_major_count')
             }
         }],
         natural_disaster_emergencies_count: [{
             $bucketAuto: {
                 groupBy: '$natural_disaster_emergencies_count',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$natural_disaster_emergencies_count')
             }
         }],
         air_aqi: [{
             $bucketAuto: {
                 groupBy: '$air_aqi',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$air_aqi')
             }
         }],
         healthy_diet_rate: [{
             $bucketAuto: {
                 groupBy: '$healthy_diet_rate',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$healthy_diet_rate')
             }
         }],
         average_bmi: [{
             $bucketAuto: {
                 groupBy: '$average_bmi',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$average_bmi')
             }
         }],
         people_feel_bad_rate: [{
             $bucketAuto: {
                 groupBy: '$people_feel_bad_rate',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$people_feel_bad_rate')
             }
         }],
         general_health_condition: [{
             $bucketAuto: {
                 groupBy: '$general_health_condition',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$general_health_condition')
             }
         }],
         democratic_10yr_voting_rate: [{
             $bucketAuto: {
                 groupBy: '$democratic_10yr_voting_rate',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$democratic_10yr_voting_rate')
             }
         }],
         republican_10yr_voting_rate: [{
             $bucketAuto: {
                 groupBy: '$republican_10yr_voting_rate',
-                buckets: 3
+                buckets: 3,
+                output: generateOutput('$republican_10yr_voting_rate')
             }
         }]
         // TODO: Fix: `unemployment` data

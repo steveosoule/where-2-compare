@@ -4,7 +4,7 @@
   "description": "Tools & data to help compare locations across the US.",
   "main": "index.js",
   "scripts": {
-    "server": "node server.js",
+    "server": "nodemon server.js",
     "db": "mongod"
   },
   "repository": {

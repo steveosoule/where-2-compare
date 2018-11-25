@@ -398,7 +398,11 @@ var vm = new Vue({
                 });
                 var match_rate = match_count / unique_preference_codes.length;
                 // color = match_rate > 0 ? 'rgba(0,128,0,' + match_rate + ')' : 'rgba(0,0,0,0.25)';
-                color = this.d3_color_range(match_rate);
+                if (match_rate > 0 ){
+                    color = this.d3_color_range(match_rate);
+                } else {
+                    color = 'rgba(0,0,0,0)';
+                }
             }
             return color;
         },
