@@ -50,6 +50,14 @@
                             </option>
                         </select>
                     </div>
+                    <div class="form-group" v-if="color_method === 'stat'">
+                        <label>Color Stat</label>
+                        <select v-model="color_stat" class="form-control form-control-sm">
+                            <option v-for="primary_stat in primary_stats" v-bind:value="primary_stat.code">
+                                {{ primary_stat.code | snake_to_title }}
+                            </option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label>Shape Basis</label>
                         <select v-model="radius_method" class="form-control form-control-sm">
@@ -435,36 +443,36 @@
                             </article>
                         </section>
                         <table class="table table-bordered table-sm table-striped">
-                            <tr><td colspan="2"><h3>Links</h3></td>
+                            <tr><td colspan="2"><h3>Links</h3></td></tr>
                             <tr><td align="right"><b>Jobs:</b></td><td><a v-bind:href="selected_city.indeed_link" target="_blank">Indeed.com</a></td></tr>
                             <tr><td align="right"><b>Houses:</b></td><td><a v-bind:href="selected_city.zillow_link" target="_blank">Zillow.com</a></td></tr>
                             <tr><td align="right"><b>Houses:</b></td><td><a v-bind:href="selected_city.realtor_link" target="_blank">Realtor.com</a></td></tr>
-                            <tr><td colspan="2"><h3>Stats</h3></td>
+                            <tr><td colspan="2"><h3>Stats</h3></td></tr>
                             <tr><td align="right"><b>Population:</b></td><td>{{selected_city.population | numeric}}</td></tr>
                             <tr><td align="right"><b>Elevation:</b></td><td>{{selected_city.median_household_income | numeric}}</td></tr>
                             <tr><td align="right"><b>Square Miles:</b></td><td>{{selected_city.median_house_value | numeric}}</td></tr>
-                            <tr><td colspan="2"><h3>Housing</h3></td>
+                            <tr><td colspan="2"><h3>Housing</h3></td></tr>
                             <tr><td align="right"><b>Median Household Income:</b></td><td>{{selected_city.median_rent | numeric}}</td></tr>
                             <tr><td align="right"><b>Median House Value:</b></td><td>{{selected_city.cost_of_living_index}}</td></tr>
                             <tr><td align="right"><b>Median Rent:</b></td><td>{{selected_city.elevation | numeric}}</td></tr>
-                            <tr><td colspan="2"><h3>Economy</h3></td>
+                            <tr><td colspan="2"><h3>Economy</h3></td></tr>
                             <tr><td align="right"><b>Cost Of Living:</b></td><td>{{selected_city.square_miles | numeric}}</td></tr>
                             <tr><td align="right"><b>Tourist Attraction Count:</b></td><td>{{selected_city.tourist_attraction_count}}</td></tr>
                             <tr><td align="right"><b>Unemployment:</b></td><td>{{selected_city.unemployment_rate}}</td></tr>
                             <tr><td align="right"><b>Population Change Since 1990s:</b></td><td>{{selected_city.population_change_1990s_percent}}</td></tr>
-                            <tr><td colspan="2"><h3>Disasters</h3></td>
+                            <tr><td colspan="2"><h3>Disasters</h3></td></tr>
                             <tr><td align="right"><b>Natural Disaster Count:</b></td><td>{{selected_city.natural_disaster_count}}</td></tr>
                             <tr><td align="right"><b>Major Natural Disaster  Count:</b></td><td>{{selected_city.natural_disaster_major_count}}</td></tr>
                             <tr><td align="right"><b>Natural Disaster Emergencies Count:</b></td><td>{{selected_city.natural_disaster_emergencies_count}}</td></tr>
-                            <tr><td colspan="2"><h3>Health</h3></td>
+                            <tr><td colspan="2"><h3>Health</h3></td></tr>
                             <tr><td align="right"><b>Healthy Diet:</b></td><td>{{selected_city.healthy_diet_rate}}</td></tr>
                             <tr><td align="right"><b>People Feel Bad:</b></td><td>{{selected_city.people_feel_bad_rate}}</td></tr>
                             <tr><td align="right"><b>Air AQI:</b></td><td>{{selected_city.air_aqi}}</td></tr>
-                            <tr><td colspan="2"><h3>Politics</h3></td>
+                            <tr><td colspan="2"><h3>Politics</h3></td></tr>
                             <tr><td align="right"><b>Color:</b></td><td>{{selected_city.color}}</td></tr>
                             <tr><td align="right"><b>Democratic 10yr Voting:</b></td><td>{{selected_city.democratic_10yr_voting_rate}}</td></tr>
                             <tr><td align="right"><b>Republican 10yr Voting:</b></td><td>{{selected_city.republican_10yr_voting_rate}}</td></tr>
-                            <tr><td colspan="2"><h3>Weather</h3></td>
+                            <tr><td colspan="2"><h3>Weather</h3></td></tr>
                             <tr><td align="right"><b>Min Temp.:</b></td><td>{{selected_city.weather_ann_tmin_amount}}</td></tr>
                             <tr><td align="right"><b>Average Temp.:</b></td><td>{{selected_city.weather_ann_tavg_amount}}</td></tr>
                             <tr><td align="right"><b>Max Temp.:</b></td><td>{{selected_city.weather_ann_tmax_amount}}</td></tr>

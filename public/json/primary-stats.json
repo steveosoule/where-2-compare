@@ -1,0 +1,446 @@
+{
+    "population": {
+        "code": "population",
+        "title": "Population",
+        "abbr": "Population",
+        "sortable": 1
+    },
+    "population_male": {
+        "code": "population_male",
+        "title": "Population Male",
+        "abbr": "Pop. Male",
+        "sortable": 0
+    },
+    "population_male_percent": {
+        "code": "population_male_percent",
+        "title": "Population Male Percent",
+        "abbr": "Pop. Male %",
+        "sortable": 0
+    },
+    "population_female": {
+        "code": "population_female",
+        "title": "Population Female",
+        "abbr": "Pop. Female",
+        "sortable": 0
+    },
+    "population_female_percent": {
+        "code": "population_female_percent",
+        "title": "Population Female Percent",
+        "abbr": "Pop. Female %",
+        "sortable": 0
+    },
+    "median_age": {
+        "code": "median_age",
+        "title": "Median Age",
+        "abbr": "Avg. Age",
+        "sortable": 0
+    },
+    "median_age_state": {
+        "code": "median_age_state",
+        "title": "Median Age State",
+        "abbr": "Avg. Age State",
+        "sortable": 0
+    },
+    "median_household_income": {
+        "code": "median_household_income",
+        "title": "Median Household Income",
+        "abbr": "Avg. Household Income",
+        "sortable": 1
+    },
+    "median_household_income_state": {
+        "code": "median_household_income_state",
+        "title": "Median Household Income State",
+        "abbr": "Avg. Household Income State",
+        "sortable": 0
+    },
+    "median_house_value": {
+        "code": "median_house_value",
+        "title": "Median House Value",
+        "abbr": "Avg. House Value",
+        "sortable": 1
+    },
+    "median_house_value_state": {
+        "code": "median_house_value_state",
+        "title": "Median House Value State",
+        "abbr": "Avg. House Value State",
+        "sortable": 0
+    },
+    "median_rent": {
+        "code": "median_rent",
+        "title": "Median Rent",
+        "abbr": "Avg. Rent",
+        "sortable": 1
+    },
+    "cost_of_living_index": {
+        "code": "cost_of_living_index",
+        "title": "Cost Of Living Index",
+        "abbr": "Cost Of Living",
+        "sortable": 1
+    },
+    "city_guide_toal_count": {
+        "code": "city_guide_toal_count",
+        "title": "City Guide Toal Count",
+        "abbr": "City Guide Toal Count",
+        "sortable": 0
+    },
+    "elevation": {
+        "code": "elevation",
+        "title": "Elevation",
+        "abbr": "Elevation",
+        "sortable": 1
+    },
+    "square_miles": {
+        "code": "square_miles",
+        "title": "Square Miles",
+        "abbr": "Sq. Miles",
+        "sortable": 1
+    },
+    "foreign_born_percent": {
+        "code": "foreign_born_percent",
+        "title": "Foreign Born Percent",
+        "abbr": "Foreign Born %",
+        "sortable": 0
+    },
+    "foreign_born_percent_state": {
+        "code": "foreign_born_percent_state",
+        "title": "Foreign Born Percent State",
+        "abbr": "Foreign Born % State",
+        "sortable": 0
+    },
+    "mortage_real_estate_tax_cost": {
+        "code": "mortage_real_estate_tax_cost",
+        "title": "Mortage Real Estate Tax Cost",
+        "abbr": "Mortage Real Estate Tax",
+        "sortable": 0
+    },
+    "mortage_real_estate_tax_percent": {
+        "code": "mortage_real_estate_tax_percent",
+        "title": "Mortage Real Estate Tax Percent",
+        "abbr": "Mortage Real Estate Tax %",
+        "sortable": 0
+    },
+    "no_mortage_real_estate_tax_cost": {
+        "code": "no_mortage_real_estate_tax_cost",
+        "title": "No Mortage Real Estate Tax Cost",
+        "abbr": "No Mortage Real Estate Tax",
+        "sortable": 0
+    },
+    "no_mortage_real_estate_tax_percent": {
+        "code": "no_mortage_real_estate_tax_percent",
+        "title": "No Mortage Real Estate Tax Percent",
+        "abbr": "No Mortage Real Estate Tax %",
+        "sortable": 0
+    },
+    "latitude": {
+        "code": "latitude",
+        "title": "Latitude",
+        "abbr": "Latitude",
+        "sortable": 0
+    },
+    "longitude": {
+        "code": "longitude",
+        "title": "Longitude",
+        "abbr": "Longitude",
+        "sortable": 0
+    },
+    "daytime_population_change_amount": {
+        "code": "daytime_population_change_amount",
+        "title": "Daytime Population Change Amount",
+        "abbr": "Daytime Pop. Change",
+        "sortable": 0
+    },
+    "daytime_population_change_percent": {
+        "code": "daytime_population_change_percent",
+        "title": "Daytime Population Change Percent",
+        "abbr": "Daytime Pop. Change %",
+        "sortable": 0
+    },
+    "live_and_work_in_city_amount": {
+        "code": "live_and_work_in_city_amount",
+        "title": "Live And Work In City Amount",
+        "abbr": "Live And Work in City",
+        "sortable": 0
+    },
+    "live_and_work_in_city_percent": {
+        "code": "live_and_work_in_city_percent",
+        "title": "Live And Work In City Percent",
+        "abbr": "Live And Work in City %",
+        "sortable": 0
+    },
+    "police_officer_count": {
+        "code": "police_officer_count",
+        "title": "Police Officer Count",
+        "abbr": "Police Officer Count",
+        "sortable": 0
+    },
+    "officer_count": {
+        "code": "officer_count",
+        "title": "Officer Count",
+        "abbr": "Officer Count",
+        "sortable": 0
+    },
+    "officers_per_1000": {
+        "code": "officers_per_1000",
+        "title": "Officers Per 1000",
+        "abbr": "Officers Per 1000",
+        "sortable": 0
+    },
+    "officers_per_1000_state": {
+        "code": "officers_per_1000_state",
+        "title": "Officers Per 1000 State",
+        "abbr": "Officers Per 1000 State",
+        "sortable": 0
+    },
+    "city_wikipedia_profile_link": {
+        "code": "city_wikipedia_profile_link",
+        "title": "City Wikipedia Profile Link",
+        "abbr": "City Wikipedia Profile Link",
+        "sortable": 0
+    },
+    "tourist_attraction_count": {
+        "code": "tourist_attraction_count",
+        "title": "Tourist Attraction Count",
+        "abbr": "Tourist Attraction Count",
+        "sortable": 1
+    },
+    "unemployment_rate": {
+        "code": "unemployment_rate",
+        "title": "Unemployment Rate",
+        "abbr": "Unemployment Rate",
+        "sortable": 1
+    },
+    "unemployment_rate_state": {
+        "code": "unemployment_rate_state",
+        "title": "Unemployment Rate State",
+        "abbr": "Unemployment Rate State",
+        "sortable": 0
+    },
+    "population_change_1990s_count": {
+        "code": "population_change_1990s_count",
+        "title": "Population Change 1990s Count",
+        "abbr": "Pop. Change 1990s Count",
+        "sortable": 1
+    },
+    "population_change_1990s_percent": {
+        "code": "population_change_1990s_percent",
+        "title": "Population Change 1990s Percent",
+        "abbr": "Pop. Change 1990s %",
+        "sortable": 0
+    },
+    "earthquakes_likelyhood": {
+        "code": "earthquakes_likelyhood",
+        "title": "Earthquakes Likelyhood",
+        "abbr": "Earthquakes Likelyhood",
+        "sortable": 1
+    },
+    "natural_disaster_count": {
+        "code": "natural_disaster_count",
+        "title": "Natural Disaster Count",
+        "abbr": "Natural Disaster Count",
+        "sortable": 1
+    },
+    "natural_disaster_major_count": {
+        "code": "natural_disaster_major_count",
+        "title": "Natural Disaster Major Count",
+        "abbr": "Natural Disaster Major Count",
+        "sortable": 1
+    },
+    "natural_disaster_emergencies_count": {
+        "code": "natural_disaster_emergencies_count",
+        "title": "Natural Disaster Emergencies Count",
+        "abbr": "Natural Disaster Emergencies Count",
+        "sortable": 0
+    },
+    "hospital_count": {
+        "code": "hospital_count",
+        "title": "Hospital Count",
+        "abbr": "Hospital Count",
+        "sortable": 1
+    },
+    "airport_count": {
+        "code": "airport_count",
+        "title": "Airport Count",
+        "abbr": "Airport Count",
+        "sortable": 0
+    },
+    "amtrak_count": {
+        "code": "amtrak_count",
+        "title": "Amtrak Count",
+        "abbr": "Amtrak Count",
+        "sortable": 0
+    },
+    "neighborhood_count": {
+        "code": "neighborhood_count",
+        "title": "Neighborhood Count",
+        "abbr": "Neighborhood Count",
+        "sortable": 0
+    },
+    "air_aqi": {
+        "code": "air_aqi",
+        "title": "Air Aqi",
+        "abbr": "Air Aqi",
+        "sortable": 1
+    },
+    "air_co": {
+        "code": "air_co",
+        "title": "Air Co",
+        "abbr": "Air Co",
+        "sortable": 0
+    },
+    "air_no2": {
+        "code": "air_no2",
+        "title": "Air No2",
+        "abbr": "Air No2",
+        "sortable": 0
+    },
+    "air_so2": {
+        "code": "air_so2",
+        "title": "Air So2",
+        "abbr": "Air So2",
+        "sortable": 0
+    },
+    "air_ozone": {
+        "code": "air_ozone",
+        "title": "Air Ozone",
+        "abbr": "Air Ozone",
+        "sortable": 0
+    },
+    "air_pm10": {
+        "code": "air_pm10",
+        "title": "Air Pm10",
+        "abbr": "Air Pm10",
+        "sortable": 0
+    },
+    "air_pm25": {
+        "code": "air_pm25",
+        "title": "Air Pm25",
+        "abbr": "Air Pm25",
+        "sortable": 0
+    },
+    "air_pb": {
+        "code": "air_pb",
+        "title": "Air Pb",
+        "abbr": "Air Pb",
+        "sortable": 0
+    },
+    "healthy_diet_rate": {
+        "code": "healthy_diet_rate",
+        "title": "Healthy Diet Rate",
+        "abbr": "Healthy Diet Rate",
+        "sortable": 1
+    },
+    "healthy_teeth_rate": {
+        "code": "healthy_teeth_rate",
+        "title": "Healthy Teeth Rate",
+        "abbr": "Healthy Teeth Rate",
+        "sortable": 0
+    },
+    "average_bmi": {
+        "code": "average_bmi",
+        "title": "Average Bmi",
+        "abbr": "Average Bmi",
+        "sortable": 1
+    },
+    "people_feel_bad_rate": {
+        "code": "people_feel_bad_rate",
+        "title": "People Feel Bad Rate",
+        "abbr": "People Feel Bad Rate",
+        "sortable": 1
+    },
+    "people_not_drinking_alcohol": {
+        "code": "people_not_drinking_alcohol",
+        "title": "People Not Drinking Alcohol",
+        "abbr": "People Not Drinking Alcohol",
+        "sortable": 0
+    },
+    "average_hours_of_sleep": {
+        "code": "average_hours_of_sleep",
+        "title": "Average Hours Of Sleep",
+        "abbr": "Average Hours Of Sleep",
+        "sortable": 0
+    },
+    "overweight_people": {
+        "code": "overweight_people",
+        "title": "Overweight People",
+        "abbr": "Overweight People",
+        "sortable": 1
+    },
+    "general_health_condition": {
+        "code": "general_health_condition",
+        "title": "General Health Condition",
+        "abbr": "General Health Condition",
+        "sortable": 1
+    },
+    "average_condition_of_hearing": {
+        "code": "average_condition_of_hearing",
+        "title": "Average Condition Of Hearing",
+        "abbr": "Average Condition Of Hearing",
+        "sortable": 0
+    },
+    "democratic_10yr_voting_rate": {
+        "code": "democratic_10yr_voting_rate",
+        "title": "Democratic 10yr Voting Rate",
+        "abbr": "Democratic 10yr Voting Rate",
+        "sortable": 1
+    },
+    "republican_10yr_voting_rate": {
+        "code": "republican_10yr_voting_rate",
+        "title": "Republican 10yr Voting Rate",
+        "abbr": "Republican 10yr Voting Rate",
+        "sortable": 1
+    },
+    "other_10yr_voting_rate": {
+        "code": "other_10yr_voting_rate",
+        "title": "Other 10yr Voting Rate",
+        "abbr": "Other 10yr Voting Rate",
+        "sortable": 0
+    },
+    "weather_station_id": {
+        "code": "weather_station_id",
+        "title": "Weather Station Id",
+        "abbr": "Station Id",
+        "sortable": 0
+    },
+    "weather_ann_tmin_amount": {
+        "code": "weather_ann_tmin_amount",
+        "title": "Weather Ann Tmin Amount",
+        "abbr": "Ann. Temp. Min.",
+        "sortable": 0
+    },
+    "weather_ann_tavg_amount": {
+        "code": "weather_ann_tavg_amount",
+        "title": "Weather Ann Tavg Amount",
+        "abbr": "Ann. Temp. Avg.",
+        "sortable": 0
+    },
+    "weather_ann_tmax_amount": {
+        "code": "weather_ann_tmax_amount",
+        "title": "Weather Ann Tmax Amount",
+        "abbr": "Ann. Temp. Max.",
+        "sortable": 0
+    },
+    "weather_winter_tmin_amount": {
+        "code": "weather_winter_tmin_amount",
+        "title": "Weather Winter Tmin Amount",
+        "abbr": "Winter Temp. Min",
+        "sortable": 0
+    },
+    "weather_summer_tmax_amount": {
+        "code": "weather_summer_tmax_amount",
+        "title": "Weather Summer Tmax Amount",
+        "abbr": "Summer Temp. Max",
+        "sortable": 0
+    },
+    "weather_ann_prcp_amount": {
+        "code": "weather_ann_prcp_amount",
+        "title": "Weather Ann Prcp Amount",
+        "abbr": "Ann. Prcp.",
+        "sortable": 0
+    },
+    "weather_ann_prcp_avgnds_ge001hi_amount": {
+        "code": "weather_ann_prcp_avgnds_ge001hi_amount",
+        "title": "Weather Ann Prcp Avgnds Ge001hi Amount",
+        "abbr": "Days with +1 in. Prcp.",
+        "sortable": 0
+    }
+}

@@ -1,3 +1,4 @@
+// TODO: Use webpack
 // TODO: Add more facets & details
 // TODO: Preference match, score, & display
 // TODO: Search near city
@@ -6,7 +7,13 @@
 // TODO: Optimize  UI
 // TODO: Leaflet map visualization
 
-Vue.filter('percentage', function(value, decimals) {
+/* let _ = window.lodash;
+let axios = window.axios;
+let Vue = window.Vue;
+let d3 = window.d3;
+let topojson = window.topojson; */
+
+Vue.filter('percentage', function (value, decimals) {
     if (!value) value = 0;
     if (!decimals) decimals = 0;
 
@@ -14,7 +21,7 @@ Vue.filter('percentage', function(value, decimals) {
     return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals) + '%';
 });
 
-Vue.filter('numeric', function(value) {
+Vue.filter('numeric', function (value) {
     return Number(value).toLocaleString();
 });
 
@@ -31,23 +38,23 @@ var JSON_HEADERS = {
     'Content-Type': 'application/json'
 };
 
-var KEYS_TO_KEEP = ['population', 'population_male', 'population_male_percent', 'population_female', 'population_female_percent', 'median_age', 'median_age_state', 'median_household_income', 'median_household_income_state', 'median_house_value', 'median_house_value_state', 'median_rent', 'cost_of_living_index', 'city_guide_toal_count', 'elevation', 'square_miles', 'foreign_born_percent', 'foreign_born_percent_state', 'mortage_real_estate_tax_cost', 'mortage_real_estate_tax_percent', 'no_mortage_real_estate_tax_cost', 'no_mortage_real_estate_tax_percent', 'latitude', 'longitude', 'daytime_population_change_amount', 'daytime_population_change_percent', 'live_and_work_in_city_amount', 'live_and_work_in_city_percent', 'police_officer_count', 'officer_count', 'officers_per_1000', 'officers_per_1000_state', 'city_wikipedia_profile_link', 'tourist_attraction_count', 'unemployment_rate', 'unemployment_rate_state', 'population_change_1990s_count', 'population_change_1990s_percent', 'earthquakes_likelyhood', 'natural_disaster_count', 'natural_disaster_major_count', 'natural_disaster_emergencies_count', 'hospital_count', 'airport_count', 'amtrak_count', 'neighborhood_count', 'air_aqi', 'air_co', 'air_no2', 'air_so2', 'air_ozone', 'air_pm10', 'air_pm25', 'air_pb', 'healthy_diet_rate', 'healthy_teeth_rate', 'average_bmi', 'people_feel_bad_rate', 'people_not_drinking_alcohol', 'average_hours_of_sleep', 'overweight_people', 'general_health_condition', 'average_condition_of_hearing', 'democratic_10yr_voting_rate', 'republican_10yr_voting_rate', 'other_10yr_voting_rate', 'weather_station_id', 'weather_ann_tmin_amount', 'weather_ann_tavg_amount', 'weather_ann_tmax_amount', 'weather_winter_tmin_amount', 'weather_summer_tmax_amount', 'weather_ann_prcp_amount', 'weather_ann_prcp_avgnds_ge001hi_amount']
+var KEYS_TO_KEEP = ['population', 'population_male', 'population_male_percent', 'population_female', 'population_female_percent', 'median_age', 'median_age_state', 'median_household_income', 'median_household_income_state', 'median_house_value', 'median_house_value_state', 'median_rent', 'cost_of_living_index', 'city_guide_toal_count', 'elevation', 'square_miles', 'foreign_born_percent', 'foreign_born_percent_state', 'mortage_real_estate_tax_cost', 'mortage_real_estate_tax_percent', 'no_mortage_real_estate_tax_cost', 'no_mortage_real_estate_tax_percent', 'latitude', 'longitude', 'daytime_population_change_amount', 'daytime_population_change_percent', 'live_and_work_in_city_amount', 'live_and_work_in_city_percent', 'police_officer_count', 'officer_count', 'officers_per_1000', 'officers_per_1000_state', 'city_wikipedia_profile_link', 'tourist_attraction_count', 'unemployment_rate', 'unemployment_rate_state', 'population_change_1990s_count', 'population_change_1990s_percent', 'earthquakes_likelyhood', 'natural_disaster_count', 'natural_disaster_major_count', 'natural_disaster_emergencies_count', 'hospital_count', 'airport_count', 'amtrak_count', 'neighborhood_count', 'air_aqi', 'air_co', 'air_no2', 'air_so2', 'air_ozone', 'air_pm10', 'air_pm25', 'air_pb', 'healthy_diet_rate', 'healthy_teeth_rate', 'average_bmi', 'people_feel_bad_rate', 'people_not_drinking_alcohol', 'average_hours_of_sleep', 'overweight_people', 'general_health_condition', 'average_condition_of_hearing', 'democratic_10yr_voting_rate', 'republican_10yr_voting_rate', 'other_10yr_voting_rate', 'weather_station_id', 'weather_ann_tmin_amount', 'weather_ann_tavg_amount', 'weather_ann_tmax_amount', 'weather_winter_tmin_amount', 'weather_summer_tmax_amount', 'weather_ann_prcp_amount', 'weather_ann_prcp_avgnds_ge001hi_amount'];
 
 var AXIOS_CONFIG_JSON = {
     headers: JSON_HEADERS
 };
 
-var slugify = function(text) {
+var slugify = function (text) {
     return text.toString().toLowerCase()
-        .replace(/\s+/g, '-')           // Replace spaces with -
-        .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-        .replace(/^-+/, '')             // Trim - from start of text
-        .replace(/-+$/, '');            // Trim - from end of text
-}
+        .replace(/\s+/g, '-') // Replace spaces with -
+        .replace(/[^\w-]+/g, '') // Remove all non-word chars
+        .replace(/--+/g, '-') // Replace multiple - with single -
+        .replace(/^-+/, '') // Trim - from start of text
+        .replace(/-+$/, ''); // Trim - from end of text
+};
 
 
-var vm = new Vue({
+window.vm = new Vue({
     el: '#app',
     data: {
         // app: data
@@ -55,12 +62,15 @@ var vm = new Vue({
         cities: null,
         facets: null,
 
-        color_method_options: ['preferences', 'party', 'none'],
+        app_config: {
+            enable_weather_images: false
+        },
+
+        color_method_options: ['preferences', 'party', 'stat', 'none'],
         color_method: 'party',
-        // meyerweb.com/eric/tools/color-blend/#FFFFFF:009900:10:hex
-        // d3_color_range: d3.scaleLinear().domain(d3.ticks(0, 1, 25)).range(["#990000", "#009900"]),
+        color_stat: null,
+        color_scale: null,
         d3_color_range: d3.scaleLinear().domain(d3.ticks(0, 1, 10)).range(['#999999', '#8BA28B', '#7DAC7D', '#6FB56F', '#61BE61', '#53C753', '#46D146', '#38DA38', '#2AE32A', '#1CEC1C', '#0EF60E', '#00FF00']),
-        // d3_color_range: d3.scaleQuantize().domain([0, 1]).range(["#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598", "#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142"]),
 
         // app: selections
         selected_city: null,
@@ -73,7 +83,8 @@ var vm = new Vue({
         search_limit: 100,
         search_limit_max: 1000,
         search_offset: 0,
-        search_sort_prop_options: ['population', 'square_miles', 'elevation', 'cost_of_living_index', 'crime_index_per_year_avg', 'median_household_income', 'median_house_value', 'republican_10yr_voting_rate', 'democratic_10yr_voting_rate'],
+        primary_stats: {},
+        // search_sort_prop_options: ['population', 'square_miles', 'elevation', 'cost_of_living_index', 'crime_index_per_year_avg', 'median_household_income', 'median_house_value', 'republican_10yr_voting_rate', 'democratic_10yr_voting_rate'],
         search_sort_prop: 'population',
         search_sort_dir_options: ['asc', 'desc'],
         search_sort_dir: 'desc',
@@ -94,25 +105,34 @@ var vm = new Vue({
         projection: null,
         path: null
     },
-    beforeMount: function() {
+    beforeMount: function () {
         this.load_compared_cities();
         this.load_user_settings();
     },
-    mounted: function() {
+    mounted: function () {
         this.init();
     },
-    created: function(){
+    created: function () {
         this.load_cities_from_api_debounced = _.debounce(this.load_cities_from_api, 750);
     },
     watch: {
+        max_city_stat: {
+            handler: function () {
+                var self = this;
+                var color_range = ['red', 'yellow', 'green'];
+                // var color_range = ['yellow', 'red'];
+                // var color_range = ['red', 'blue'];
+                self.color_scale = d3.scaleLinear().domain(d3.ticks(0, self.max_city_stat, 10)).range(color_range);
+            }
+        },
         post_data: {
-            handler: function() {
+            handler: function () {
                 this.load_cities();
             },
             deep: true
         },
-        compared_cities: function(){
-            var simplified_compared_cities = this.compared_cities.map(function(city){
+        compared_cities: function () {
+            var simplified_compared_cities = this.compared_cities.map(function (city) {
                 delete city.props;
                 return city;
             });
@@ -121,19 +141,19 @@ var vm = new Vue({
         user_settings: function () {
             localStorage.setItem('user_settings', JSON.stringify(this.user_settings));
         },
-        selected_city: function(selected_city){
+        selected_city: function (selected_city) {
             this.load_duckduckgo_for_selected_city(selected_city);
             this.load_detailed_selected_city(selected_city);
         },
         filters: {
-            handler: function(){
+            handler: function () {
                 this.load_cities();
             },
             deep: true
         }
     },
     computed: {
-        user_settings: function(){
+        user_settings: function () {
             return {
                 search_city_name: this.search_city_name,
                 search_limit: this.search_limit,
@@ -141,14 +161,28 @@ var vm = new Vue({
                 search_sort_dir: this.search_sort_dir,
                 filter_query: this.filter_query,
                 radius_method: this.radius_method,
-                color_method: this.color_method
+                color_method: this.color_method,
+                color_stat: this.color_stat
             };
+        },
+        search_sort_prop_options: function () {
+            if (!this.primary_stats) return [];
+            var sort_keys = [];
+            for (var key in this.primary_stats) {
+                if (this.primary_stats.hasOwnProperty(key)) {
+                    var stat = this.primary_stats[key];
+                    if (stat.sortable) {
+                        sort_keys.push(key);
+                    }
+                }
+            }
+            return sort_keys;
         },
         preferences: function () {
             if (!this.mapped_facets) return [];
             return this.mapped_facets.reduce(function (preferences, facet) {
-                facet.values.forEach(function(value){
-                    if( value.is_preference ){
+                facet.values.forEach(function (value) {
+                    if (value.is_preference) {
                         value.facet_code = facet.code;
                         preferences.push(value);
                     }
@@ -158,7 +192,7 @@ var vm = new Vue({
         },
         filters: function () {
             var filters = [];
-            if (!this.mapped_facets ) return filters;
+            if (!this.mapped_facets) return filters;
             this.mapped_facets.forEach(function (facet) {
                 facet.values.forEach(function (value) {
                     if (value.is_filter) {
@@ -169,11 +203,11 @@ var vm = new Vue({
             });
             return filters;
         },
-        sorted_compared_cities: function(){
+        sorted_compared_cities: function () {
             var self = this;
             return this.compared_cities.sort(self.single_sort);
         },
-        filtered_cities: function() {
+        filtered_cities: function () {
             var self = this;
             if (!self.mapped_cities) {
                 return;
@@ -183,7 +217,7 @@ var vm = new Vue({
                 limit = self.filter_offset + self.filter_limit;
 
             var filter_query = new RegExp(self.filter_query, 'i');
-            return self.mapped_cities.filter(function(city){
+            return self.mapped_cities.filter(function (city) {
                 if (self.filter_query) {
                     return filter_query.test(city.city_name) || filter_query.test(city.state_name);
                 } else {
@@ -191,10 +225,32 @@ var vm = new Vue({
                 }
             }).sort(self.single_sort).slice(offset, limit);
         },
-        mapped_cities: function() {
+        max_city_stat: function () {
+            var self = this;
+
+            // console.log('max_city_stat', self.color_method, self.color_stat, self.cities);
+
+            if (self.color_method !== 'stat' || !self.color_stat || !self.cities) {
+                return;
+            }
+
+
+            var max = self.cities.reduce(function (max, city) {
+                var city_color_stat = city[self.color_stat];
+                if (city_color_stat > max) {
+                    max = city_color_stat;
+                }
+                return max;
+            }, 0);
+
+            console.log('calculating max stat', max);
+
+            return max;
+        },
+        mapped_cities: function () {
             var self = this;
             if (!self.cities) return [];
-            return self.cities.map(function(city) {
+            return self.cities.map(function (city) {
 
                 city.color = self.determine_city_color(city);
                 city.svg_stroke = self.determine_city_stroke(city);
@@ -215,8 +271,8 @@ var vm = new Vue({
             var self = this;
             if (!self.facets) return [];
             return self.facets.map(function (facet) {
-                facet.values = facet.values.map(function(value){
-                    if( value.percent ){
+                facet.values = facet.values.map(function (value) {
+                    if (value.percent) {
                         value.formatted_percent = Math.round(value.percent * 100) + '%';
                     }
                     return value;
@@ -224,15 +280,15 @@ var vm = new Vue({
                 return facet;
             });
         },
-        post_data: function(){
-            var city_name = this.search_city_name ? this.search_city_name: null,
+        post_data: function () {
+            var city_name = this.search_city_name ? this.search_city_name : null,
                 sort = this.search_sort || null,
                 sort_prop = this.search_sort_prop || null,
                 sort_dir = this.search_sort_dir || null,
                 limit = Number(this.search_limit || 500),
                 offset = Number(this.search_offset || 0);
 
-            if( limit > this.search_limit_max ){
+            if (limit > this.search_limit_max) {
                 offset = 0;
                 sort_prop = null;
                 sort_dir = null;
@@ -252,13 +308,14 @@ var vm = new Vue({
         }
     },
     methods: {
-        init: function() {
+        init: function () {
             this.prepare_svg();
             this.draw_states();
+            this.load_primary_stats();
             this.load_cities();
             this.load_facets();
         },
-        prepare_svg: function() {
+        prepare_svg: function () {
             var self = this;
 
             // Set Projection
@@ -277,11 +334,11 @@ var vm = new Vue({
                 .scale(900)
                 .center([-101, 38]);
         },
-        draw_states: function() {
+        draw_states: function () {
 
             var self = this;
 
-            d3.json('/json/us.json', function(error, topo) {
+            d3.json('/json/us.json', function (error, topo) {
 
                 var states = topojson.feature(topo, topo.objects.states).features;
 
@@ -300,7 +357,7 @@ var vm = new Vue({
                     .append('g')
                     .attr('class', 'svg-state-boarders')
                     .append('path')
-                    .datum(topojson.mesh(topo, topo.objects.states, function(a, b){
+                    .datum(topojson.mesh(topo, topo.objects.states, function (a, b) {
                         return a !== b;
                     }))
                     .attr('class', 'mesh')
@@ -308,35 +365,40 @@ var vm = new Vue({
 
             });
         },
-        load_cities: function() {
+        load_cities: function () {
             this.loading = true;
             this.load_cities_from_api_debounced();
         },
+        load_primary_stats: function () {
+            var self = this;
+            axios.get('/json/primary-stats.json').then(function (response) {
+                self.primary_stats = response.data;
+            });
+        },
         load_cities_from_json: function () {
             var self = this;
-            axios.get('/json/cities__moderate--all.json').then(function(response){
+            axios.get('/json/cities__moderate--all.json').then(function (response) {
                 self.loading = false;
                 self.cities = response.data.results;
             });
         },
-        generate_post_data: function(){
+        generate_post_data: function () {
             var self = this;
             var post_data = self.post_data ? _.clone(self.post_data, true) : {};
-            post_data.find = this.filters.reduce(function(find, filter){
+            post_data.find = this.filters.reduce(function (find, filter) {
                 if (typeof filter._id === 'number') {
                     if (filter.min && filter.max)
-                    // TODO: let this work for multiples of the same filter.facet_code
-                    find[filter.facet_code] = {
-                        $gte: filter.min,
-                        $lte: filter.max
-                    };
-                }
-                else if (typeof filter._id === 'string' ){
-                    if (typeof find[filter.facet_code] === undefined){
+                        // TODO: let this work for multiples of the same filter.facet_code
+                        find[filter.facet_code] = {
+                            $gte: filter.min,
+                            $lte: filter.max
+                        };
+                } else if (typeof filter._id === 'string') {
+                    if (typeof find[filter.facet_code] === undefined) {
                         find[filter.facet_code] = filter._id;
                     } else {
                         delete find[filter.facet_code];
-                        if( !find.$or ){
+                        if (!find.$or) {
                             find.$or = [];
                         }
                         var this_find = {};
@@ -351,7 +413,7 @@ var vm = new Vue({
         load_cities_from_api: function () {
             var self = this;
             var post_data = self.generate_post_data();
-            axios.post('/api/cities', post_data, AXIOS_CONFIG_JSON).then(function(response){
+            axios.post('/api/cities', post_data, AXIOS_CONFIG_JSON).then(function (response) {
                 self.loading = false;
                 self.cities = response.data.results;
             });
@@ -365,66 +427,69 @@ var vm = new Vue({
                 self.facets = response.data.results;
             });
         },
-        determine_city_color: function(city) {
-            var color = 'black';
-            if( this.color_method === 'party' ){
+        determine_city_color: function (city) {
+            var self = this,
+                color = 'black';
+
+            if (self.color_method === 'party') {
                 if (!city.democratic_10yr_voting_rate || !city.republican_10yr_voting_rate) {
                     return color;
                 }
                 color = city.democratic_10yr_voting_rate > city.republican_10yr_voting_rate ? 'blue' : 'red';
-            }
-            else if (this.color_method === 'preferences') {
+            } else if (self.color_method === 'preferences') {
                 var match_count = 0,
                     unique_preference_codes = [];
-                
-                this.preferences.forEach(function(preference){
+
+                self.preferences.forEach(function (preference) {
                     // TODO: Optimize this by caching it & not doing it per city
-                    if( unique_preference_codes.indexOf(preference.facet_code) === -1 ){
+                    if (unique_preference_codes.indexOf(preference.facet_code) === -1) {
                         unique_preference_codes.push(preference.facet_code);
                     }
 
                     var matches = false,
                         city_preference_value = city[preference.facet_code];
 
-                    if (preference.min && preference.max ){
+                    if (preference.min && preference.max) {
                         matches = city_preference_value >= preference.min && city_preference_value <= preference.max ? true : false;
                     } else {
                         matches = preference._id === city_preference_value ? true : false;
                     }
 
-                    if( matches ){
+                    if (matches) {
                         match_count++;
                     }
                 });
                 var match_rate = match_count / unique_preference_codes.length;
-                // color = match_rate > 0 ? 'rgba(0,128,0,' + match_rate + ')' : 'rgba(0,0,0,0.25)';
-                if (match_rate > 0 ){
-                    color = this.d3_color_range(match_rate);
-                } else {
-                    color = 'rgba(0,0,0,0)';
+                color = match_rate > 0 ? 'rgba(0,128,0,' + match_rate + ')' : 'rgba(0,0,0,0.1)';
+            } else if (self.color_method === 'stat') {
+                if( !!self.color_scale ) {
+                    color = self.color_scale(city[self.color_stat]);
                 }
             }
+
             return color;
         },
-        determine_city_stroke: function(city) {
-            return this.compared_cities.find(function(compared){
+        determine_city_stroke: function (city) {
+            return this.compared_cities.find(function (compared) {
                 return city._id == compared._id ? 'white' : '';
             });
         },
-        determine_city_radius: function(city) {
+        determine_city_radius: function (city) {
+            var radius;
             // By Square Miles
             if (this.radius_method === 'square_miles') {
                 if (city.square_miles) {
-                    var radius = Math.sqrt((city.square_miles * 0.3) / Math.PI);
+                    radius = Math.sqrt((city.square_miles * 0.3) / Math.PI);
                     return radius + 'px';
                 } else {
                     return '2px';
                 }
             }
+
             // By Population
             else if (this.radius_method === 'population') {
                 if (city.population) {
-                    var radius = Math.sqrt((city.population * 0.0005) / Math.PI);
+                    radius = Math.sqrt((city.population * 0.0005) / Math.PI);
                     return radius + 'px';
                 } else {
                     return '2px';
@@ -437,10 +502,10 @@ var vm = new Vue({
 
 
         },
-        select_city: function(city) {
+        select_city: function (city) {
             this.selected_city = city;
         },
-        load_compared_cities: function() {
+        load_compared_cities: function () {
             // TODO: only save city ids and reload them from server
             var cities = JSON.parse(localStorage.getItem('compared_cities'));
             if (cities) {
@@ -457,10 +522,11 @@ var vm = new Vue({
                 this.filter_query = settings.filter_query;
                 this.radius_method = settings.radius_method;
                 this.color_method = settings.color_method;
+                this.color_stat = settings.color_stat;
             }
         },
-        toggle_compare_city: function(selected_city) {
-            var found_index = this.compared_cities.findIndex(function(city){
+        toggle_compare_city: function (selected_city) {
+            var found_index = this.compared_cities.findIndex(function (city) {
                 return city._id === selected_city._id;
             });
 
@@ -479,8 +545,8 @@ var vm = new Vue({
                 this.compared_cities.push(selected_city);
             }
         },
-        single_sort: function(a, b) {
-            if( this.search_sort_dir === 'desc' ){
+        single_sort: function (a, b) {
+            if (this.search_sort_dir === 'desc') {
                 return b[this.search_sort_prop] - a[this.search_sort_prop];
             } else {
                 return a[this.search_sort_prop] - b[this.search_sort_prop];
@@ -488,7 +554,7 @@ var vm = new Vue({
         },
         set_search_sort_prop: function (search_sort_prop) {
             this.search_sort_prop = search_sort_prop;
-            if (this.search_sort_prop === search_sort_prop ){
+            if (this.search_sort_prop === search_sort_prop) {
                 this.search_sort_dir = this.search_sort_dir === 'asc' ? 'desc' : 'asc';
             }
         },
@@ -510,7 +576,7 @@ var vm = new Vue({
                 self.selected_city_duckduckgo_answer = response.data;
             }).catch(function () {
                 self.selected_city_duckduckgo_answer = null;
-            })
+            });
         },
         load_detailed_selected_city: function (selected_city) {
             var self = this;
@@ -521,16 +587,18 @@ var vm = new Vue({
             axios.get('/api/cities', {
                 params: {
                     field_code: 'all',
-                    find: {_id: selected_city._id}
+                    find: {
+                        _id: selected_city._id
+                    }
                 },
                 heeader: JSON_HEADERS
             }).then(function (response) {
-                if (response.data.result_count === 1){
+                if (response.data.result_count === 1) {
                     var data = _.clone(response.data.results[0]);
 
                     data.props = _.clone(response.data.results[0]);
 
-                    for(key in data){
+                    for (var key in data) {
                         if (KEYS_TO_KEEP.indexOf(key) === -1 || typeof data[key] === 'undefined') {
                             delete data.props[key];
                         }
@@ -541,7 +609,7 @@ var vm = new Vue({
                 }
             }).catch(function () {
                 self.detailed_selected_city = null;
-            })
+            });
         }
     }
 });
