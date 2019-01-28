@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/favicon.png">
     <title>Where 2 Compare</title>
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="app.css">
     <link rel="shortcut icon" href="/favicon.png">
@@ -43,6 +43,14 @@
                             placeholder="Filter Offset" />
                     </div>
                     <div class="form-group">
+                        <label>Fields</label>
+                        <select v-model="field_code" class="form-control form-control-sm">
+                            <option v-for="field_code in field_codes" v-bind:value="field_code">
+                                {{ field_code | snake_to_title }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Color</label>
                         <select v-model="color_method" class="form-control form-control-sm">
                             <option v-for="color_method_option in color_method_options" v-bind:value="color_method_option">
@@ -53,8 +61,8 @@
                     <div class="form-group" v-if="color_method === 'stat'">
                         <label>Color Stat</label>
                         <select v-model="color_stat" class="form-control form-control-sm">
-                            <option v-for="primary_stat in primary_stats" v-bind:value="primary_stat.code">
-                                {{ primary_stat.code | snake_to_title }}
+                            <option v-for="color_stat in color_stats" v-bind:value="color_stat.code">
+                                {{ color_stat.code | snake_to_title }}
                             </option>
                         </select>
                     </div>
@@ -83,7 +91,7 @@
                         </select>
                     </div>
                 </div>
-                <b-alert show variant="info" v-show="search_limit > search_limit_max">
+                <b-alert show variant="info" v-show="search_limit > search_limit_max" class="alert alert-info">
                     <b>Note:</b> When the "Limit" is greater-than
                     "{{search_limit_max}}" the results on the map are not sorted. The first {{search_limit}} have been returned from the unsorted index, and then the "Results List" are sorted by "{{search_sort_prop}}"
                 </b-alert>
@@ -505,9 +513,6 @@
     <script src="https://d3js.org/topojson.v2.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
-    <script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
