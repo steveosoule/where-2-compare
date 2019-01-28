@@ -1,3 +1,5 @@
+// TODO: Zipcode Shape Basis: https://gist.github.com/jefffriesen/6892860
+// TODO: ScaleSequential d3.interpolatePlasma https://d3indepth.com/scales/
 // TODO: Use webpack
 // TODO: Add more facets & details
 // TODO: Preference match, score, & display
@@ -125,9 +127,9 @@ window.vm = new Vue({
         max_city_stat: {
             handler: function () {
                 var self = this;
-                // var color_range = ['black', 'red'];
-                // var color_range = ['red', 'yellow', 'green'];
-                // self.color_scale = d3.scaleLinear().domain([self.min_city_stat, self.max_city_stat]).range(color_range);
+                
+                // https://d3indepth.com/scales/
+                // consider: sacelLinear, scaleQuantize, scaleQuantile and scaleThreshold
                 self.color_scale = d3.scaleQuantile().domain(d3.ticks(self.min_city_stat, self.max_city_stat, 11)).range(BLUE_TO_RED_COLOR_RANGE);
             }
         },
