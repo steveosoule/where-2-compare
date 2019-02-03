@@ -37,6 +37,31 @@ const DEFAULT_CITY_CODE = 'moderate';
 const DEFAULT_CITY_FIELDS = INCLUDED_FIELD_SETS[DEFAULT_CITY_CODE];
 
 // Express Routes
+
+var argv_to_obj = function(){
+	var argv = process.argv.slice(2);
+	var obj = {};
+	argv.forEach(function(item){
+		let [name, value] = item.split('=');
+		obj[name] = value;
+	});
+
+	return obj;
+}
+
+// All / HTTPS Redirect
+app.get('*', function (req, res) {
+	let argv = argv_to_obj();
+
+	if (argv.env === 'prod' && req.protocol === 'http' ){
+		if (req.headers.host.indexOf('localhost') === -1 ){
+			let url = 'https://' + req.headers.host + req.url;
+			res.redirect(url);
+		}
+	}
+});
+
+// Root
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname + '/public/index.html'));
 });
@@ -344,7 +369,7 @@ app.get('/api/cities', request_get_cities);
 
 var normalize_cities = function(cities){
 	return cities.map(function(city){
-		
+
 		city.cost_of_living_index = _.isArray(city.cost_of_living_index) ? city.cost_of_living_index[0] : city.cost_of_living_index;
 		city.crime_index_per_year_avg = _.get(city, 'crime_index_per_year_avg');
 
@@ -361,7 +386,7 @@ var normalize_cities = function(cities){
 		city.weather_ann_prcp_amount = _.get(city, 'weather_station.ann_prcp.amount');
 		city.weather_ann_prcp_avgnds_ge001hi_amount = _.get(city, 'weather_station.ann_prcp_avgnds_ge001hi.amount');
 		city.weather_ann_snwd_avgnds_ge001wi_amount = _.get(city, 'weather_station.ann_snwd_avgnds_ge001wi.amount');
-		
+
 		city.republican_10yr_voting_rate = _.get(city, 'republican_10yr_voting_rate');
 		city.democratic_10yr_voting_rate = _.get(city, 'democratic_10yr_voting_rate');
 

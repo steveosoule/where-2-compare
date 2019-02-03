@@ -4,9 +4,11 @@
   "description": "Tools & data to help compare locations across the US.",
   "main": "index.js",
   "scripts": {
-    "server": "node server.js",
+    "prod": "node server.js env=prod",
+    "dev": "node server.js env=dev",
     "db": "mongod",
-    "deploy": "git push heroku master"
+    "deploy": "git push heroku master",
+    "local": "nodemon --exec \"npm run dev\" --signal SIGTERM"
   },
   "repository": {
     "type": "git",

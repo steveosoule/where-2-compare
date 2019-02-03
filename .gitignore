@@ -1,6 +1,6 @@
 # mine:
 node_modules
 .private
-.log
+*.log
 .pem
 .env
