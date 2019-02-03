@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public', {
 	maxAge: 100000
 }));
+app.use('/vue-app', express.static(__dirname + '/vue-app'));
 app.listen(port, () => console.log(`Listening on port ${port}!`));
 
 // Database
