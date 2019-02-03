@@ -2,16 +2,17 @@ require('dotenv').config();
 
 // Required Packages
 const express = require('express');
-const app = express();
 const compression = require('compression');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const port = process.env.PORT || 8080;
-const path = require('path');
-const _ = require('lodash');
 const httpsRedirect = require('express-https-redirect');
+const path = require('path');
 
-// Express Config
+const app = express();
+const port = process.env.PORT || 8080;
+const _ = require('lodash');
+
+// Express config
 app.use(httpsRedirect());
 app.use(cors());
 app.use(compression());

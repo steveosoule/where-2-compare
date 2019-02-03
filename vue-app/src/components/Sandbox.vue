@@ -1,7 +1,6 @@
 <template>
   <div class="sandbox">
-    <!-- <h1>foo: {{ foo }}</h1> -->
-    <p>{{myFoo}}</p>
+    <p>{{msg}}</p>
   </div>
 </template>
 
@@ -10,7 +9,7 @@ export default {
   name: 'sandbox',
   data () {
     return {
-      myFoo: 'FizzBuzz'
+      msg: 'Hello World from Sandbox.vue'
     }
   }
 }

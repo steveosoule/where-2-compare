@@ -1,38 +1,55 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <i class="fa fa-gear"></i>
-    <p>foo: {{ foo }}</p>
-    <p>appfoo: {{ appfoo }} | {{another}}</p>
-    <router-view></router-view>
-    <sandbox/>
+    <div class="container">
+      <router-view></router-view>
+      <div>
+        <city v-for="city in sample_cities" :key="city._id" :city="city" />
+      </div>
+      <!-- <b-list-group>
+        <b-list-group-item v-for="city in sample_cities">{{city.city_name}}, {{city.state_abbr}}</b-list-group-item>
+      </b-list-group> -->
+    </div>
   </div>
 </template>
 
 <script>
-import Sandbox from './components/Sandbox'
+// import Sandbox from './components/Sandbox'
+
+import City from './components/City'
+
+import config from './config';
+import axios from 'axios';
+import _ from 'lodash';
+
 export default {
   name: 'app',
-  props: ['foo'],
   data () {
     return {
-      appfoo: 'Bar main.js',
-      another: 'thing'
+      loading: false,
+      cities: []
     }
   },
-  components: {
-    Sandbox
-  }
+  computed: {
+    sample_cities: function(){
+      return _.take(this.cities, 5);
+    }
+  },
+  methods: {
+    load_cities_from_api: function () {
+      var self = this;
+      var post_data = {}
+
+      axios
+        .post('https://where-2-compare.herokuapp.com/api/cities', post_data, config.AXIOS_CONFIG_JSON)
+        .then(function (response) {
+          self.loading = false
+          self.cities = response.data.results
+        })
+    }
+  },
+  created () {
+    this.load_cities_from_api()
+  },
+  components: { City }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
