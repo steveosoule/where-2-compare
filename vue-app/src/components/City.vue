@@ -2,10 +2,10 @@
   <article class="city">
     <h1>{{ city.city_name }}, {{ city.state_abbr }}</h1>
     <dl>
-      <template v-for="(value, key) in city">
+      <div v-for="(value, key) in city" :key="key">
         <dt>{{key}}</dt>
         <dd>{{value}}</dd>
-      </template>
+      </div>
     </dl>
   </article>
 </template>
