@@ -47,7 +47,7 @@ var argv_to_obj = function(){
 	});
 
 	return obj;
-}
+};
 
 // All / HTTPS Redirect
 app.get('*', function (req, res) {
@@ -414,7 +414,7 @@ var request_post_cities = function (req, res) {
 	if (city_name ){
 		find.city_name = {
 			$regex: new RegExp(city_name, 'i')
-		}
+		};
 	}
 
 	Cities.find(find, fields).limit(limit).skip(offset).sort(sort).lean().exec((error, results) => {
