@@ -38,28 +38,11 @@ const DEFAULT_CITY_FIELDS = INCLUDED_FIELD_SETS[DEFAULT_CITY_CODE];
 
 // Express Routes
 
-var argv_to_obj = function(){
-	var argv = process.argv.slice(2);
-	var obj = {};
-	argv.forEach(function(item){
-		let [name, value] = item.split('=');
-		obj[name] = value;
-	});
-
-	return obj;
-};
-
 // All / HTTPS Redirect
 app.get('*', function (req, res) {
-	let argv = argv_to_obj();
-
-	// if (argv.env === 'prod' && req.protocol === 'http' ){
 	if (req.protocol === 'http') {
 		let url = 'https://' + req.headers.host + req.url;
-		console.log('redict to', url);
 		res.redirect(url);
-	} else {
-		console.log('dont redirect', req.protocol);
 	}
 });
 

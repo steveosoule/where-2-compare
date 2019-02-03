@@ -15,6 +15,11 @@ let Vue = window.Vue;
 let d3 = window.d3;
 let topojson = window.topojson;
 
+// redirect to https
+if (window.location.protocol === 'http:' ){
+    window.location.protocol = 'https:';
+}
+
 Vue.filter('percentage', function (value, decimals) {
     if (!value) value = 0;
     if (!decimals) decimals = 0;
