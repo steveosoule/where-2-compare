@@ -8,8 +8,10 @@ const app = express();
 const port = process.env.PORT || 8080;
 const path = require('path');
 const _ = require('lodash');
+const httpsRedirect = require('express-https-redirect');
 
 // Express Config
+app.use(httpsRedirect());
 app.use(compression());
 app.use(bodyParser.urlencoded({
 	extended: false
@@ -37,16 +39,6 @@ const DEFAULT_CITY_CODE = 'moderate';
 const DEFAULT_CITY_FIELDS = INCLUDED_FIELD_SETS[DEFAULT_CITY_CODE];
 
 // Express Routes
-
-// All / HTTPS Redirect
-app.get('*', function (req, res) {
-	if (req.protocol === 'http') {
-		let url = 'https://' + req.headers.host + req.url;
-		res.redirect(url);
-	}
-});
-
-// Root
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname + '/public/index.html'));
 });

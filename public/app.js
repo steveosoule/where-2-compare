@@ -16,9 +16,9 @@ let d3 = window.d3;
 let topojson = window.topojson;
 
 // redirect to https
-if (window.location.protocol === 'http:' ){
+/* if (window.location.protocol === 'http:' ){
     window.location.protocol = 'https:';
-}
+} */
 
 Vue.filter('percentage', function (value, decimals) {
     if (!value) value = 0;
@@ -46,7 +46,7 @@ var JSON_HEADERS = {
 };
 
 var KEYS_TO_KEEP = ['population', 'population_male', 'population_male_percent', 'population_female', 'population_female_percent', 'median_age', 'median_age_state', 'median_household_income', 'median_household_income_state', 'median_house_value', 'median_house_value_state', 'median_rent', 'cost_of_living_index', 'city_guide_toal_count', 'elevation', 'square_miles', 'foreign_born_percent', 'foreign_born_percent_state', 'mortage_real_estate_tax_cost', 'mortage_real_estate_tax_percent', 'no_mortage_real_estate_tax_cost', 'no_mortage_real_estate_tax_percent', 'latitude', 'longitude', 'daytime_population_change_amount', 'daytime_population_change_percent', 'live_and_work_in_city_amount', 'live_and_work_in_city_percent', 'police_officer_count', 'officer_count', 'officers_per_1000', 'officers_per_1000_state', 'city_wikipedia_profile_link', 'tourist_attraction_count', 'unemployment_rate', 'unemployment_rate_state', 'population_change_1990s_count', 'population_change_1990s_percent', 'earthquakes_likelyhood', 'natural_disaster_count', 'natural_disaster_major_count', 'natural_disaster_emergencies_count', 'hospital_count', 'airport_count', 'amtrak_count', 'neighborhood_count', 'air_aqi', 'air_co', 'air_no2', 'air_so2', 'air_ozone', 'air_pm10', 'air_pm25', 'air_pb', 'healthy_diet_rate', 'healthy_teeth_rate', 'average_bmi', 'people_feel_bad_rate', 'people_not_drinking_alcohol', 'average_hours_of_sleep', 'overweight_people', 'general_health_condition', 'average_condition_of_hearing', 'democratic_10yr_voting_rate', 'republican_10yr_voting_rate', 'other_10yr_voting_rate', 'weather_station_id', 'weather_ann_tmin_amount', 'weather_ann_tavg_amount', 'weather_ann_tmax_amount', 'weather_winter_tmin_amount', 'weather_summer_tmax_amount', 'weather_ann_prcp_amount', 'weather_ann_prcp_avgnds_ge001hi_amount'];
-var RED_YELLOW_GREEN_COLOR_RANGE = ['#FF0000', '#FF3300', '#ff6600', '#ff9900', '#FFCC00', '#FFFF00', '#ccff00', '#99ff00', '#66ff00', '#33ff00', '#00FF00'];
+// var RED_YELLOW_GREEN_COLOR_RANGE = ['#FF0000', '#FF3300', '#ff6600', '#ff9900', '#FFCC00', '#FFFF00', '#ccff00', '#99ff00', '#66ff00', '#33ff00', '#00FF00'];
 var BLUE_TO_RED_COLOR_RANGE = ['#1f00dd', '#0038da', '#008ed7', '#00d4c6', '#00d170', '#00ce1b', '#35cb00', '#85c800', '#c5b700', '#c26700', '#bf1800'];
 
 var AXIOS_CONFIG_JSON = {
