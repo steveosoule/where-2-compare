@@ -53,11 +53,13 @@ var argv_to_obj = function(){
 app.get('*', function (req, res) {
 	let argv = argv_to_obj();
 
-	if (argv.env === 'prod' && req.protocol === 'http' ){
-		if (req.headers.host.indexOf('localhost') === -1 ){
-			let url = 'https://' + req.headers.host + req.url;
-			res.redirect(url);
-		}
+	// if (argv.env === 'prod' && req.protocol === 'http' ){
+	if (req.protocol === 'http') {
+		let url = 'https://' + req.headers.host + req.url;
+		console.log('redict to', url);
+		res.redirect(url);
+	} else {
+		console.log('dont redirect', req.protocol);
 	}
 });
 
