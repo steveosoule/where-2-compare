@@ -1,25 +1,18 @@
 <template>
   <div id="app">
+    <navbar/>
     <div class="container">
-      <router-view></router-view>
-      <div>
-        <city v-for="city in sample_cities" :key="city._id" :city="city" />
-      </div>
-      <!-- <b-list-group>
-        <b-list-group-item v-for="city in sample_cities">{{city.city_name}}, {{city.state_abbr}}</b-list-group-item>
-      </b-list-group> -->
+      <router-view :cities="cities"></router-view>
     </div>
   </div>
 </template>
 
 <script>
-// import Sandbox from './components/Sandbox'
-
-import City from './components/City'
-
 import config from './config';
 import axios from 'axios';
 import _ from 'lodash';
+
+import Navbar from './components/Navbar';
 
 export default {
   name: 'app',
@@ -50,6 +43,12 @@ export default {
   created () {
     this.load_cities_from_api()
   },
-  components: { City }
+  components: { Navbar }
 }
 </script>
+
+<style>
+  .container {
+    padding-top: 25px;
+  }
+</style>
