@@ -24,17 +24,17 @@ app.listen(port, () => console.log(`Listening on port ${port}!`));
 
 // Database
 const mongoose = require('mongoose');
-const db_config = require(__dirname + '/db.js');
+const db_config = require(__dirname + '/server/db.js');
 mongoose.connect(db_config.url, {
 	useNewUrlParser: true
 });
 
-const Stations = require(__dirname + '/schemas/stations.js');
-const Cities = require(__dirname + '/schemas/cities.js');
+const Stations = require(__dirname + '/server/schemas/stations.js');
+const Cities = require(__dirname + '/server/schemas/cities.js');
 
 // App Config
 const METER_TO_MILES = 0.000621371;
-const INCLUDED_FIELD_SETS = require(__dirname + '/config/includedFields.js');
+const INCLUDED_FIELD_SETS = require(__dirname + '/server/config/includedFields.js');
 const DEFAULT_CITY_CODE = 'moderate';
 const DEFAULT_CITY_FIELDS = INCLUDED_FIELD_SETS[DEFAULT_CITY_CODE];
 
@@ -135,7 +135,7 @@ var format_facet_result = function (facet_result) {
 
 var request_facets = function (req, res) {
 
-	const facetSettings = require(__dirname + '/config/facetSettings.js');
+	const facetSettings = require(__dirname + '/server/config/facetSettings.js');
 	var match = prepMatchQuery(req.query.match);
 
 	Cities.aggregate(
@@ -242,7 +242,7 @@ var load_weather_and_send_res_cities_and_facets = function (opts) {
 
 var request_search = function (req, res) {
 
-	const facetSettings = require(__dirname + '/config/facetSettings.js');
+	const facetSettings = require(__dirname + '/server/config/facetSettings.js');
 	var match = prepMatchQuery(req.query.match);
 
 	var limit = req.query.limit ? Number(req.query.limit) : 10,
