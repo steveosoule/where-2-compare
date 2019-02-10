@@ -4,6 +4,7 @@
 	- https://en.wikipedia.org/wiki/K%C3%B6ppen_climate_classification
 
 - New
+    - https://www.bestplaces.net/
 	- https://www2.census.gov/programs-surveys/acs/data/pums/2016/5-Year/
 	- https://www.census.gov/programs-surveys/acs/data/pums.html
 		- https://factfinder.census.gov/faces/nav/jsf/pages/searchresults.xhtml?refresh=t#
