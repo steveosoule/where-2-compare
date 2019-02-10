@@ -8,9 +8,9 @@
     "dev": "node server.js",
     "db": "mongod",
     "deploy": "git push heroku master",
-    "deploy_major": "pnpm version major; git push — tags origin master; git push; pnpm deploy",
-    "deploy_minor": "pnpm version minor; git push — tags origin master; git push; pnpm deploy",
-    "deploy_patch": "pnpm version patch; git push — tags origin master; git push; pnpm deploy",
+    "deploy_major": "pnpm version major; git push --tags origin master; git push; pnpm deploy",
+    "deploy_minor": "pnpm version minor; git push --tags origin master; git push; pnpm deploy",
+    "deploy_patch": "pnpm version patch; git push --tags origin master; git push; pnpm deploy",
     "local": "nodemon --exec \"pnpm run dev\" --signal SIGTERM"
   },
   "repository": {
