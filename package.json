@@ -1,6 +1,6 @@
 {
   "name": "where-2-compare",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Tools & data to help compare locations across the US.",
   "main": "index.js",
   "scripts": {
