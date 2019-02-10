@@ -21,7 +21,8 @@
                         <a href="#filters" class="btn btn-sm btn-block btn-secondary">Filters</a>
                         <a href="#list" class="btn btn-sm btn-block btn-secondary">List</a>
                         <a href="#detail" class="btn btn-sm btn-block btn-secondary" v-bind:class="{ disabled: !selected_city }">Detail</a>
-                        <a href="#compare" class="btn btn-sm btn-block btn-secondary" v-bind:class="{ disabled: !sorted_compared_cities.length }">Compare</a>
+                        <a href="#compare" class="btn btn-sm btn-block btn-secondary" v-bind:class="{ disabled: !sorted_compared_cities_from_ids.length }">Compare</a>
+                        <a href="#compare-scroll" class="btn btn-sm btn-block btn-secondary" v-bind:class="{ disabled: !sorted_compared_cities_from_ids_grid.length }">Compare Scroll</a>
                     </nav>
                 </div>
             </section>
@@ -124,7 +125,7 @@
             <div class="row">
                 <div class="col-12 col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-sm" v-if="sorted_compared_cities && sorted_compared_cities.length" id="compare">
+                        <table class="table table-striped table-bordered table-sm" v-if="sorted_compared_cities_from_ids && sorted_compared_cities_from_ids.length" id="compare">
                             <tr>
                                 <th colspan="2"><h3>Comparisons</h3></th>
                                 <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('population')">Population</button></th>
@@ -146,7 +147,7 @@
                                 <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('republican_10yr_voting_rate')">Republican</button></th>
                                 <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('democratic_10yr_voting_rate')">Democratic</button></th>
                             </tr>
-                            <tr v-for="compared_city in sorted_compared_cities" :key="compared_city._id">
+                            <tr v-for="compared_city in sorted_compared_cities_from_ids" :key="compared_city._id">
                                 <td>
                                     <button class="btn btn-sm" v-on:click="toggle_compare_city(compared_city)">
                                         <i class="far fa-trash-alt"></i>
@@ -507,6 +508,21 @@
                     </section>
                 </div>
             </div>
+            <section id="compare-scroll" v-if="sorted_compared_cities_from_ids_grid && sorted_compared_cities_from_ids_grid.length">
+                <h3>Comparison Grid</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped compare-scroll-table">
+                        <tr v-for="(row, row_index) in sorted_compared_cities_from_ids_grid">
+                            <td v-for="(cell, cell_index) in row" width="400px" :title="sorted_compared_cities_from_ids_grid[4][cell_index] + ': ' + sorted_compared_cities_from_ids_grid[row_index][0]">
+                                <div v-if="typeof cell === 'string' && (cell.indexOf('.png') > -1 || cell.indexOf('.jpg') > -1)">
+                                    <img :src="cell">
+                                </div>
+                                <div v-else>{{ cell }}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
         </div>
     </main>
     <script src="https://d3js.org/d3.v4.min.js"></script>

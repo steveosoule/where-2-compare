@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="app">
     <navbar/>
     <div class="container">
       <router-view :cities="cities"></router-view>

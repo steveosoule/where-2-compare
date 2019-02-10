@@ -15,6 +15,14 @@ let Vue = window.Vue;
 let d3 = window.d3;
 let topojson = window.topojson;
 
+let snake_to_title = function (str) {
+    str = str.toLowerCase().split('_');
+    for (var i = 0; i < str.length; i++) {
+        str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+    }
+    return str.join(' ');
+};
+
 // redirect to https
 /* if (window.location.protocol === 'http:' ){
     window.location.protocol = 'https:';
@@ -32,13 +40,7 @@ Vue.filter('numeric', function (value) {
     return Number(value).toLocaleString();
 });
 
-Vue.filter('snake_to_title', function (str) {
-    str = str.toLowerCase().split('_');
-    for (var i = 0; i < str.length; i++) {
-        str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-    }
-    return str.join(' ');
-});
+Vue.filter('snake_to_title', snake_to_title);
 
 var JSON_HEADERS = {
     'Access-Control-Allow-Origin': '*',
@@ -87,6 +89,8 @@ window.vm = new Vue({
         detailed_selected_city: null,
         selected_city_duckduckgo_answer: null,
         compared_cities: [],
+        compared_city_ids: [],
+        compared_cities_from_ids: [],
 
         // app: search API
         search_city_name: null,
@@ -129,10 +133,15 @@ window.vm = new Vue({
         this.load_cities_from_api_debounced = _.debounce(this.load_cities_from_api, 750);
     },
     watch: {
+        compared_city_ids: function(){
+            var self = this;
+            self.load_compared_cities_from_api();
+            localStorage.setItem('compared_city_ids', JSON.stringify(self.compared_city_ids));
+        },
         max_city_stat: {
             handler: function () {
                 var self = this;
-                
+
                 // https://d3indepth.com/scales/
                 // consider: sacelLinear, scaleQuantize, scaleQuantile and scaleThreshold
                 self.color_scale = d3.scaleQuantile().domain(d3.ticks(self.min_city_stat, self.max_city_stat, 11)).range(BLUE_TO_RED_COLOR_RANGE);
@@ -143,13 +152,6 @@ window.vm = new Vue({
                 this.load_cities();
             },
             deep: true
-        },
-        compared_cities: function () {
-            var simplified_compared_cities = this.compared_cities.map(function (city) {
-                delete city.props;
-                return city;
-            });
-            localStorage.setItem('compared_cities', JSON.stringify(simplified_compared_cities));
         },
         user_settings: function () {
             localStorage.setItem('user_settings', JSON.stringify(this.user_settings));
@@ -235,9 +237,34 @@ window.vm = new Vue({
             });
             return filters;
         },
-        sorted_compared_cities: function () {
+        /* sorted_compared_cities: function () {
             var self = this;
             return this.compared_cities.sort(self.single_sort);
+        }, */
+        sorted_compared_cities_from_ids: function () {
+            var self = this;
+            return this.compared_cities_from_ids.sort(self.single_sort);
+        },
+        sorted_compared_cities_from_ids_grid: function () {
+            var self = this,
+                array_of_keys = self.sorted_compared_cities_from_ids.map(city => _.keys(city)),
+                unique_keys = _.union(array_of_keys[0]);
+
+            var grid = [];
+
+            if (!unique_keys.length ){
+                return grid;
+            }
+
+            unique_keys.forEach(function(unique_key){
+                var grid_row = [snake_to_title(unique_key)];
+                self.sorted_compared_cities_from_ids.forEach(function(city){
+                    grid_row.push(_.get(city, unique_key));
+                });
+                grid.push(grid_row);
+            });
+
+            return grid;
         },
         filtered_cities: function () {
             var self = this;
@@ -555,9 +582,14 @@ window.vm = new Vue({
         },
         load_compared_cities: function () {
             // TODO: only save city ids and reload them from server
-            var cities = JSON.parse(localStorage.getItem('compared_cities'));
+            /* var cities = JSON.parse(localStorage.getItem('compared_cities'));
             if (cities) {
                 this.compared_cities = cities.sort(this.single_sort);
+            } */
+
+            var city_ids = JSON.parse(localStorage.getItem('compared_city_ids'));
+            if (city_ids) {
+                this.compared_city_ids = city_ids; // TODO: .sort(this.single_sort);
             }
         },
         load_user_settings: function () {
@@ -575,23 +607,19 @@ window.vm = new Vue({
             }
         },
         toggle_compare_city: function (selected_city) {
-            var found_index = this.compared_cities.findIndex(function (city) {
-                return city._id === selected_city._id;
-            });
+            var found_index = this.compared_city_ids.indexOf(selected_city._id);
 
             if (found_index > -1) {
-                this.compared_cities.splice(found_index, 1);
+                this.compared_city_ids.splice(found_index, 1);
             } else {
-                this.compared_cities.push(selected_city);
+                this.compared_city_ids.push(selected_city._id);
             }
         },
         add_compare_city: function (selected_city) {
-            var found_index = this.compared_cities.findIndex(function (city) {
-                return city._id === selected_city._id;
-            });
+            var found_index = this.compared_city_ids.indexOf(selected_city._id);
 
             if (found_index === -1) {
-                this.compared_cities.push(selected_city);
+                this.compared_city_ids.push(selected_city._id);
             }
         },
         single_sort: function (a, b) {
@@ -658,6 +686,28 @@ window.vm = new Vue({
                 }
             }).catch(function () {
                 self.detailed_selected_city = null;
+            });
+        },
+        load_compared_cities_from_api: function(){
+            var self = this;
+            console.log('load_compared_cities_from_api', self.compared_city_ids);
+
+            if (!self.compared_city_ids.length ){
+                self.compared_cities_from_ids = [];
+                return;
+            }
+
+            axios.get('/api/cities', {
+                params: {
+                    field_code: 'all',
+                    find: {
+                        _id: self.compared_city_ids
+                    }
+                },
+                heeader: JSON_HEADERS
+            }).then(function (response) {
+                var compared_cities_from_ids = _.clone(response.data.results);
+                self.compared_cities_from_ids = compared_cities_from_ids;
             });
         }
     }

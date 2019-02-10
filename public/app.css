@@ -102,3 +102,9 @@ iframe{
 .w2c-logo{
 	max-width: 40px;
 }
+
+.compare-scroll-table td:before {
+	content: attr(title);
+	font-size: 9px;
+	opacity: .5;
+}

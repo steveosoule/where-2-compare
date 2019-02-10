@@ -8,6 +8,7 @@ dependencies:
   vue: 2.5.22
   vue-hot-reload-api: 2.3.1
   vue-router: 3.0.2
+  vue2-google-maps: 0.10.5
 devDependencies:
   autoprefixer: 7.2.6
   babel-core: 6.26.3
@@ -854,6 +855,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-btAhFz4vy0htestFxgCahW9kcHE=
+  /babel-runtime/5.8.38:
+    dependencies:
+      core-js: 1.2.7
+    dev: false
+    resolution:
+      integrity: sha1-HAsC62MxL18If/IEUIJ7QlydTBk=
   /babel-runtime/6.26.0:
     dependencies:
       core-js: 2.6.3
@@ -1579,6 +1586,10 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha512-Y+SQCF+0NoWQryez2zXn5J5knmr9z/9qSQt7fbL78u83rxmigOy8X5+BFn8CFSuX+nKT8gpYwJX68ekqtQt6ZA==
+  /core-js/1.2.7:
+    dev: false
+    resolution:
+      integrity: sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
   /core-js/2.6.3:
     resolution:
       integrity: sha512-l00tmFFZOBHtYhN4Cz7k32VM7vTn3rE2ANjQDxdEN6zmXZ/xq1jQuutnmHvMG1ZJ7xd72+TA5YpUK8wz3rWsfQ==
@@ -3634,6 +3645,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
+  /marker-clusterer-plus/2.1.4:
+    dev: false
+    resolution:
+      integrity: sha1-+O/3TVmdqzt9Dj/tUmTqDnBPXWc=
   /math-expression-evaluator/1.2.17:
     dev: true
     resolution:
@@ -5877,6 +5892,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-pxY3ZHlXNJMFQbkjEgGVMaMMkSV1ONpz+4qB55kZuJzyJOhn6MSy/YZdzhdnumegNzVTL/Dn3Pp4UrVBYt1j/g==
+  /vue2-google-maps/0.10.5:
+    dependencies:
+      babel-runtime: 5.8.38
+      marker-clusterer-plus: 2.1.4
+    dev: false
+    resolution:
+      integrity: sha512-QXgEPIqX1v4MNQL9ihKBf+OSoI0ZTySeDaXAF4QbVOhpe9gqXG6LaNvTJMjGSksIfGdsaZkgww0Hmhok40thGg==
   /watchpack/1.6.0:
     dependencies:
       chokidar: 2.0.4
@@ -6132,6 +6154,7 @@ specifiers:
   vue-router: ^3.0.1
   vue-style-loader: ^3.0.1
   vue-template-compiler: ^2.4.2
+  vue2-google-maps: ^0.10.5
   webpack: ^2.6.1
   webpack-bundle-analyzer: ^2.2.1
   webpack-dev-middleware: ^1.10.0
