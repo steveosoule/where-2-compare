@@ -1,3 +1,7 @@
+// TODO: Save `user_settings` to/from url
+// TODO: Heatmap on top comparison table
+// TODO: Strip "NOAA weather"'s invalid/missing data
+// TODO: County Shape Basis is in current geojson file
 // TODO: Zipcode Shape Basis: https://gist.github.com/jefffriesen/6892860
 // TODO: ScaleSequential d3.interpolatePlasma https://d3indepth.com/scales/
 // TODO: Use webpack
@@ -15,17 +19,16 @@ let Vue = window.Vue;
 let d3 = window.d3;
 let topojson = window.topojson;
 
-let format_snake_to_title = function (str) {
+var format_numeric = function (value) {
+    return Number(value).toLocaleString();
+};
+
+var format_snake_to_title = function (str) {
     str = str.toLowerCase().split('_');
     for (var i = 0; i < str.length; i++) {
         str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
     }
     return str.join(' ');
-};
-
-
-var format_numeric = function (value) {
-    return Number(value).toLocaleString();
 };
 
 var format_percentage = function (value, decimals) {
@@ -34,6 +37,35 @@ var format_percentage = function (value, decimals) {
 
     value = value * 100;
     return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals) + '%';
+};
+
+var value_of_city_prop = function (city, prop) {
+    var value = city[prop],
+        result;
+
+    switch (prop) {
+        case 'cost_of_living_index':
+        case 'crime_index_per_year_avg':
+        case 'elevation':
+        case 'median_house_value':
+        case 'median_house_value_15yr_monthly_payment_at_5_percent_interest':
+        case 'median_house_value_30yr_monthly_payment_at_5_percent_interest':
+        case 'median_household_income':
+        case 'population':
+        case 'square_miles':
+        case 'years_to_payoff_house_estimated_no_interest':
+        case 'years_to_payoff_house_strict':
+            result = format_numeric(value);
+            break;
+        case 'rent_as_percent_of_income':
+            result = format_percentage(value);
+            break;
+        default:
+            result = value;
+            break;
+    }
+
+    return result;
 };
 
 Vue.filter('percentage', format_percentage);
@@ -90,6 +122,8 @@ window.vm = new Vue({
         compared_city_ids: [],
         compared_cities_from_ids: [],
 
+        compared_city_props: ['population', 'square_miles', 'elevation', 'cost_of_living_index', 'rent_as_percent_of_income', 'years_to_payoff_house_strict', 'years_to_payoff_house_estimated_no_interest', 'median_house_value_30yr_monthly_payment_at_5_percent_interest', 'median_house_value_15yr_monthly_payment_at_5_percent_interest', 'crime_index_per_year_avg', 'median_household_income', 'median_house_value', 'weather_ann_tmin_amount', 'weather_ann_tavg_amount', 'weather_ann_tmax_amount', 'weather_winter_tmin_amount', 'weather_summer_tmax_amount', 'weather_ann_snow_amount', 'weather_ann_prcp_amount', 'weather_ann_prcp_avgnds_ge001hi_amount', 'weather_ann_snwd_avgnds_ge001wi_amount', 'republican_10yr_voting_rate', 'democratic_10yr_voting_rate'],
+
         // app: search API
         search_city_name: null,
         search_limit: 100,
@@ -108,8 +142,6 @@ window.vm = new Vue({
         filter_query: null,
         filter_limit: 50,
         filter_offset: 0,
-
-        compared_city_props: ['population', 'square_miles', 'elevation', 'cost_of_living_index', 'rent_as_percent_of_income', 'years_to_payoff_house_strict', 'years_to_payoff_house_estimated_no_interest', 'median_house_value_30yr_monthly_payment_at_5_percent_interest', 'median_house_value_15yr_monthly_payment_at_5_percent_interest', 'crime_index_per_year_avg', 'median_household_income', 'median_house_value', 'weather_ann_tmin_amount', 'weather_ann_tavg_amount', 'weather_ann_tmax_amount', 'weather_winter_tmin_amount', 'weather_summer_tmax_amount', 'weather_ann_snow_amount', 'weather_ann_prcp_amount', 'weather_ann_prcp_avgnds_ge001hi_amount', 'weather_ann_snwd_avgnds_ge001wi_amount', 'republican_10yr_voting_rate', 'democratic_10yr_voting_rate'],
 
         // svg
         svg: null,
@@ -133,7 +165,7 @@ window.vm = new Vue({
         this.load_cities_from_api_debounced = _.debounce(this.load_cities_from_api, 750);
     },
     watch: {
-        compared_city_ids: function(){
+        compared_city_ids: function () {
             var self = this;
             self.load_compared_cities_from_api();
             localStorage.setItem('compared_city_ids', JSON.stringify(self.compared_city_ids));
@@ -253,13 +285,13 @@ window.vm = new Vue({
 
             var grid = [];
 
-            if (!unique_keys.length ){
+            if (!unique_keys.length) {
                 return grid;
             }
 
-            unique_keys.forEach(function(unique_key){
+            unique_keys.forEach(function (unique_key) {
                 var grid_row = [format_snake_to_title(unique_key)];
-                self.sorted_compared_cities_from_ids.forEach(function(city){
+                self.sorted_compared_cities_from_ids.forEach(function (city) {
                     grid_row.push(_.get(city, unique_key));
                 });
                 grid.push(grid_row);
@@ -689,11 +721,11 @@ window.vm = new Vue({
                 self.detailed_selected_city = null;
             });
         },
-        load_compared_cities_from_api: function(){
+        load_compared_cities_from_api: function () {
             var self = this;
             console.log('load_compared_cities_from_api', self.compared_city_ids);
 
-            if (!self.compared_city_ids.length ){
+            if (!self.compared_city_ids.length) {
                 self.compared_cities_from_ids = [];
                 return;
             }
@@ -711,33 +743,6 @@ window.vm = new Vue({
                 self.compared_cities_from_ids = compared_cities_from_ids;
             });
         },
-        value_of_city_prop: function (city, prop) {
-            var value = city[prop],
-                result;
-
-            switch (prop) {
-                case 'cost_of_living_index':
-                case 'crime_index_per_year_avg':
-                case 'elevation':
-                case 'median_house_value':
-                case 'median_house_value_15yr_monthly_payment_at_5_percent_interest':
-                case 'median_house_value_30yr_monthly_payment_at_5_percent_interest':
-                case 'median_household_income':
-                case 'population':
-                case 'square_miles':
-                case 'years_to_payoff_house_estimated_no_interest':
-                case 'years_to_payoff_house_strict':
-                    result = format_numeric(value);
-                    break;
-                case 'rent_as_percent_of_income':
-                    result = format_percentage(value);
-                    break;
-                default:
-                    result = value;
-                    break;
-            }
-
-            return result;
-        }
+        value_of_city_prop: value_of_city_prop
     }
 });
