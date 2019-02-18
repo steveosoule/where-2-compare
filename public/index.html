@@ -116,9 +116,9 @@
                                 </circle>
                             </g>
                         </svg>
-                        <b-alert show variant="info" v-show="loading" class="svg-loading">
-                            Loading...
-                        </b-alert>
+                        <p show variant="info" v-show="loading" class="svg-loading">
+                            <span class="fa fa-cog fa-spin fa-fw"></span> Loading...
+                        </p>
                     </div>
                 </div>
             </div>
@@ -128,7 +128,14 @@
                         <table class="table table-striped table-bordered table-sm" v-if="sorted_compared_cities_from_ids && sorted_compared_cities_from_ids.length" id="compare">
                             <tr>
                                 <th colspan="2"><h3>Comparisons</h3></th>
-                                <th v-for="compared_city_prop in compared_city_props"><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop(compared_city_prop)">{{ compared_city_prop | snake_to_title }}</button></th>
+                                <th v-for="compared_city_prop in compared_city_props">
+                                    <button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop(compared_city_prop)">
+                                        {{ compared_city_prop | snake_to_title }}
+                                        <span v-show="search_sort_prop === compared_city_prop">
+                                            <span class="fa" :class="{'fa-caret-down': search_sort_dir === 'desc', 'fa-caret-up': search_sort_dir === 'asc'}"></span>
+                                        </span>
+                                    </button>
+                                </th>
                             </tr>
                             <tr v-for="compared_city in sorted_compared_cities_from_ids" :key="compared_city._id">
                                 <td>
