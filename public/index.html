@@ -163,29 +163,9 @@
                                         {{compared_city.city_name}}, {{compared_city.state_abbr}}
                                     </button>
                                 </td>
-                                <td>{{compared_city.population | numeric }}</td>
-                                <td>{{compared_city.square_miles | numeric }}</td>
-                                <td>{{compared_city.elevation | numeric}}</td>
-                                <td>{{compared_city.cost_of_living_index | numeric}}</td>
-                                <td>{{compared_city.rent_as_percent_of_income | percentage }}</td>
-                                <td>{{compared_city.years_to_payoff_house_strict | numeric}}</td>
-                                <td>{{compared_city.years_to_payoff_house_estimated_no_interest | numeric}}</td>
-                                <td>{{compared_city.median_house_value_30yr_monthly_payment_at_5_percent_interest | numeric}}</td>
-                                <td>{{compared_city.median_house_value_15yr_monthly_payment_at_5_percent_interest | numeric}}</td>
-                                <td>{{compared_city.crime_index_per_year_avg | numeric}}</td>
-                                <td>{{compared_city.median_household_income | numeric}}</td>
-                                <td>{{compared_city.median_house_value | numeric}}</td>
-                                <td>{{compared_city.weather_ann_tmin_amount }}</td>
-                                <td>{{compared_city.weather_ann_tavg_amount }}</td>
-                                <td>{{compared_city.weather_ann_tmax_amount }}</td>
-                                <td>{{compared_city.weather_winter_tmin_amount }}</td>
-                                <td>{{compared_city.weather_summer_tmax_amount }}</td>
-                                <td>{{compared_city.weather_ann_snow_amount }}</td>
-                                <td>{{compared_city.weather_ann_prcp_amount }}</td>
-                                <td>{{compared_city.weather_ann_prcp_avgnds_ge001hi_amount }}</td>
-                                <td>{{compared_city.weather_ann_snwd_avgnds_ge001wi_amount }}</td>
-                                <td>{{compared_city.republican_10yr_voting_rate }}</td>
-                                <td>{{compared_city.democratic_10yr_voting_rate }}</td>
+                                <!-- <td v-for="compared_city_prop in compared_city_props">
+                                    {{ value_of_city_prop(compared_city, compared_city_prop)}}
+                                </td> -->
                             </tr>
                         </table>
                     </div>
@@ -276,18 +256,6 @@
                         </div>
                         <section v-if="detailed_selected_city">
                             <article>
-                                <!-- <h3>Breadcrumbs</h3>
-                                <ul class="breadcrumb" v-if="detailed_selected_city.breadcrumbs">
-                                    <li v-for="link in detailed_selected_city.breadcrumbs" class="breadcrumb-item">
-                                        <a v-bind:href="http://www.city-data.com/'' + link.link[0]">{{link.title[0]}}</a>
-                                    </li>
-                                </ul> -->
-                                <!-- <h3>Gallery</h3>
-                                <template v-for="image in detailed_selected_city.gallery" :key="image.thumbnail">
-                                    <a v-bind:href="'http://www.city-data.com' + image.link" target="_blank" v-if="image.thumbnail" class="col-4">
-                                        <img v-bind:src="image.thumbnail" v-bind:alt="image.description" v-bind:title="image.description" class="img-thumbnail">
-                                    </a>
-                                </template> -->
                                 <article>
                                     <h3>Weather</h3>
                                     <img v-if="detailed_selected_city.temperature_image" v-bind:src="detailed_selected_city.temperature_image" alt="temperature image">
@@ -297,6 +265,23 @@
                                     <img v-if="detailed_selected_city.snow_image" v-bind:src="detailed_selected_city.snow_image" alt="snow image">
                                     <img v-if="detailed_selected_city.sunshine_image" v-bind:src="detailed_selected_city.sunshine_image" alt="sunshine image">
                                     <img v-if="detailed_selected_city.clouds_image" v-bind:src="detailed_selected_city.clouds_image" alt="clouds image">
+                                </article>
+                                <article>
+                                    <h3>Gallery</h3>
+                                    <template v-for="image in detailed_selected_city.gallery" :key="image.thumbnail">
+                                        <a v-bind:href="'http://www.city-data.com' + image.link" target="_blank" v-if="image.thumbnail" class="col-4">
+                                            <img v-bind:src="image.thumbnail" v-bind:alt="image.description" v-bind:title="image.description"
+                                                class="img-thumbnail">
+                                        </a>
+                                    </template>
+                                </article>
+                                <article>
+                                    <h3>Breadcrumbs</h3>
+                                    <ul class="breadcrumb" v-if="detailed_selected_city.breadcrumbs">
+                                        <li v-for="link in detailed_selected_city.breadcrumbs" class="breadcrumb-item">
+                                            <a v-bind:href="http://www.city-data.com/'' + link.link[0]">{{link.title[0]}}</a>
+                                        </li>
+                                    </ul>
                                 </article>
                                 <article v-if="detailed_selected_city.natural_disasters">
                                     <h3>Natural Disasters</h3>
