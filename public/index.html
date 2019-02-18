@@ -128,29 +128,7 @@
                         <table class="table table-striped table-bordered table-sm" v-if="sorted_compared_cities_from_ids && sorted_compared_cities_from_ids.length" id="compare">
                             <tr>
                                 <th colspan="2"><h3>Comparisons</h3></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('population')">Population</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('square_miles')">Sq. Miles</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('elevation')">Elevation</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('cost_of_living_index')">Cost of Living</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('rent_as_percent_of_income')">Rent As Percent Of Income</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('years_to_payoff_house_strict')">Yrs To Payoff House Strict</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('years_to_payoff_house_estimated_no_interest')">Yrs To Payoff House Est. No Interest</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('median_house_value_30yr_monthly_payment_at_5_percent_interest')">House Value 30yr Monthly Payment At 5% Int.</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('median_house_value_15yr_monthly_payment_at_5_percent_interest')">House Value 15yr Monthly Payment At 5% Int.</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('crime_index_per_year_avg')">Crime Index</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('median_household_income')">Income</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('median_house_value')">Home Value</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_tmin_amount')">Temp Min</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_tavg_amount')">Temp Avg</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_tmax_amount')">Temp Max</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_winter_tmin_amount')">Winter Temp Min</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_summer_tmax_amount')">Summer Temp Max</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_snow_amount')">Snow</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_prcp_amount')">Precp</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_prcp_avgnds_ge001hi_amount')">Days Precp</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('weather_ann_snwd_avgnds_ge001wi_amount')">Days Snow</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('republican_10yr_voting_rate')">Republican</button></th>
-                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('democratic_10yr_voting_rate')">Democratic</button></th>
+                                <th v-for="compared_city_prop in compared_city_props"><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop(compared_city_prop)">{{ compared_city_prop | snake_to_title }}</button></th>
                             </tr>
                             <tr v-for="compared_city in sorted_compared_cities_from_ids" :key="compared_city._id">
                                 <td>
@@ -163,9 +141,7 @@
                                         {{compared_city.city_name}}, {{compared_city.state_abbr}}
                                     </button>
                                 </td>
-                                <!-- <td v-for="compared_city_prop in compared_city_props">
-                                    {{ value_of_city_prop(compared_city, compared_city_prop)}}
-                                </td> -->
+                                <td v-for="compared_city_prop in compared_city_props">{{ value_of_city_prop(compared_city, compared_city_prop) }}</td>
                             </tr>
                         </table>
                     </div>

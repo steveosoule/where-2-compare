@@ -165,7 +165,7 @@ window.vm = new Vue({
         this.load_cities_from_api_debounced = _.debounce(this.load_cities_from_api, 750);
     },
     watch: {
-        compared_city_ids: function(){
+        compared_city_ids: function () {
             var self = this;
             self.load_compared_cities_from_api();
             localStorage.setItem('compared_city_ids', JSON.stringify(self.compared_city_ids));
@@ -285,13 +285,13 @@ window.vm = new Vue({
 
             var grid = [];
 
-            if (!unique_keys.length ){
+            if (!unique_keys.length) {
                 return grid;
             }
 
-            unique_keys.forEach(function(unique_key){
+            unique_keys.forEach(function (unique_key) {
                 var grid_row = [format_snake_to_title(unique_key)];
-                self.sorted_compared_cities_from_ids.forEach(function(city){
+                self.sorted_compared_cities_from_ids.forEach(function (city) {
                     grid_row.push(_.get(city, unique_key));
                 });
                 grid.push(grid_row);
@@ -721,11 +721,11 @@ window.vm = new Vue({
                 self.detailed_selected_city = null;
             });
         },
-        load_compared_cities_from_api: function(){
+        load_compared_cities_from_api: function () {
             var self = this;
             console.log('load_compared_cities_from_api', self.compared_city_ids);
 
-            if (!self.compared_city_ids.length ){
+            if (!self.compared_city_ids.length) {
                 self.compared_cities_from_ids = [];
                 return;
             }
