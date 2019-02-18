@@ -130,7 +130,6 @@ window.vm = new Vue({
         search_limit_max: 1000,
         search_offset: 0,
         primary_stats: {},
-        // search_sort_prop_options: ['population', 'square_miles', 'elevation', 'cost_of_living_index', 'crime_index_per_year_avg', 'median_household_income', 'median_house_value', 'republican_10yr_voting_rate', 'democratic_10yr_voting_rate'],
         search_sort_prop: 'population',
         search_sort_dir_options: ['asc', 'desc'],
         search_sort_dir: 'desc',
