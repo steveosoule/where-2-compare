@@ -132,6 +132,11 @@
                                 <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('square_miles')">Sq. Miles</button></th>
                                 <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('elevation')">Elevation</button></th>
                                 <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('cost_of_living_index')">Cost of Living</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('rent_as_percent_of_income')">Rent As Percent Of Income</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('years_to_payoff_house_strict')">Yrs To Payoff House Strict</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('years_to_payoff_house_estimated_no_interest')">Yrs To Payoff House Est. No Interest</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('median_house_value_30yr_monthly_payment_at_5_percent_interest')">House Value 30yr Monthly Payment At 5% Int.</button></th>
+                                <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('median_house_value_15yr_monthly_payment_at_5_percent_interest')">House Value 15yr Monthly Payment At 5% Int.</button></th>
                                 <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('crime_index_per_year_avg')">Crime Index</button></th>
                                 <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('median_household_income')">Income</button></th>
                                 <th><button class="btn btn-link btn-sm" v-on:click="set_search_sort_prop('median_house_value')">Home Value</button></th>
@@ -162,6 +167,11 @@
                                 <td>{{compared_city.square_miles | numeric }}</td>
                                 <td>{{compared_city.elevation | numeric}}</td>
                                 <td>{{compared_city.cost_of_living_index | numeric}}</td>
+                                <td>{{compared_city.rent_as_percent_of_income | percentage }}</td>
+                                <td>{{compared_city.years_to_payoff_house_strict | numeric}}</td>
+                                <td>{{compared_city.years_to_payoff_house_estimated_no_interest | numeric}}</td>
+                                <td>{{compared_city.median_house_value_30yr_monthly_payment_at_5_percent_interest | numeric}}</td>
+                                <td>{{compared_city.median_house_value_15yr_monthly_payment_at_5_percent_interest | numeric}}</td>
                                 <td>{{compared_city.crime_index_per_year_avg | numeric}}</td>
                                 <td>{{compared_city.median_household_income | numeric}}</td>
                                 <td>{{compared_city.median_house_value | numeric}}</td>
@@ -535,6 +545,8 @@
 
     <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
     <script src="https://unpkg.com/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- <script src="node_modules/financejs/finance.js"></script> -->
 
     <script src="app.js"></script>
 </body>

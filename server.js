@@ -12,6 +12,10 @@ const app = express();
 const port = process.env.PORT || 8080;
 const _ = require('lodash');
 
+var Finance = require('financejs');
+var finance = new Finance();
+
+
 // Express config
 app.use(httpsRedirect());
 app.use(cors());
@@ -348,6 +352,8 @@ var request_get_cities = function (req, res) {
 
 app.get('/api/cities', request_get_cities);
 
+const HOME_LOAD_INTEREST_RATE = 5.5;
+
 var normalize_cities = function(cities){
 	return cities.map(function(city){
 
@@ -370,6 +376,16 @@ var normalize_cities = function(cities){
 
 		city.republican_10yr_voting_rate = _.get(city, 'republican_10yr_voting_rate');
 		city.democratic_10yr_voting_rate = _.get(city, 'democratic_10yr_voting_rate');
+
+		var has_median_household_income = _.has(city, 'median_household_income'),
+			has_median_house_value = _.has(city, 'median_house_value'),
+			has_house_and_income = has_median_household_income && has_median_house_value;
+		
+		city.rent_as_percent_of_income = has_median_household_income && _.has(city, 'median_rent') ? city.median_rent / (city.median_household_income / 12) : 0;
+		city.years_to_payoff_house_strict = has_house_and_income ? city.median_house_value / city.median_household_income : 0;
+		city.years_to_payoff_house_estimated_no_interest = has_house_and_income ? city.median_house_value / (city.median_household_income * 0.25) : 0;
+		city.median_house_value_30yr_monthly_payment_at_5_percent_interest = has_median_house_value ? finance.AM(city.median_house_value, HOME_LOAD_INTEREST_RATE, 30, 0) : 0;
+		city.median_house_value_15yr_monthly_payment_at_5_percent_interest = has_median_house_value ? finance.AM(city.median_house_value, HOME_LOAD_INTEREST_RATE, 15, 0) : 0;
 
 		if (DEFAULT_CITY_CODE === 'moderate' ){
 			delete city.weather_station;

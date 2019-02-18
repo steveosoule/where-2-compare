@@ -1,0 +1,12 @@
+dependencies:
+  financejs: 4.1.0
+packages:
+  /financejs/4.1.0:
+    dev: false
+    resolution:
+      integrity: sha1-5pt89PC13QyKOwQZkkOVE6K5PEE=
+registry: 'https://registry.npmjs.org/'
+shrinkwrapMinorVersion: 9
+shrinkwrapVersion: 3
+specifiers:
+  financejs: ^4.1.0

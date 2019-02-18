@@ -154,6 +154,7 @@ window.vm = new Vue({
             deep: true
         },
         user_settings: function () {
+            // todo sync to URL
             localStorage.setItem('user_settings', JSON.stringify(this.user_settings));
         },
         selected_city: function (selected_city) {
