@@ -8,7 +8,7 @@ svg{
 }
 .feature {
 	fill: #bbb;
-	stroke: grey;
+	stroke: #aaa;
 	stroke-width: 1px;
 	stroke-linejoin: round;
 }

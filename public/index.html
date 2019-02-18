@@ -148,8 +148,8 @@
                                         {{compared_city.city_name}}, {{compared_city.state_abbr}}
                                     </button>
                                 </td>
-                                <td v-for="compared_city_prop in compared_city_props">{{ value_of_city_prop(compared_city, compared_city_prop) }}</td>
-                            </tr>
+                                <td v-for="compared_city_prop in compared_city_props" :style="{ backgroundColor: compared_city.comparison_color }">{{ value_of_city_prop(compared_city, compared_city_prop) }}</td>
+                                </tr>
                         </table>
                     </div>
                 </div>

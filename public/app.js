@@ -462,7 +462,7 @@ window.vm = new Vue({
 
             d3.json('/json/us.json', function (error, topo) {
 
-                var states = topojson.feature(topo, topo.objects.states).features;
+                var states = topojson.feature(topo, topo.objects.counties).features;
 
                 // add states from topojson
                 self.svg.select('.svg-map')
