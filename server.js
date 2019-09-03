@@ -182,13 +182,26 @@ const DEFAULT_SELECT_FIELDS = ['url', 'city_name', 'state_name', 'state_abbr', '
 
 
 var merge_stations_into_cities = function (stations, cities) {
+	var max_miles_from_city = 0;
 	stations.forEach((station, i) => {
-		if (i === 0) {
-			cities[i].closest_weather_station = station[0];
+		var city = cities[i];		
+		city.closest_weather_station = station[0];
+		
+		if( city.closest_weather_station.calc.miles_from_city > max_miles_from_city ){
+			max_miles_from_city = city.closest_weather_station.calc.miles_from_city
 		}
-		// cities[i].weather_stations = station[0];
-	});
 
+		city.weather_ann_tmin_amount = _.get(city.closest_weather_station, 'ann_tmin.amount')
+		city.weather_ann_tavg_amount = _.get(city.closest_weather_station, 'ann_tavg.amount')
+		city.weather_ann_tmax_amount = _.get(city.closest_weather_station, 'ann_tmax.amount')
+		city.weather_winter_tmin_amount = _.get(city.closest_weather_station, 'winter_tmin.amount')
+		city.weather_summer_tmax_amount = _.get(city.closest_weather_station, 'summer_tmax.amount')
+		city.weather_ann_snow_amount = _.get(city.closest_weather_station, 'ann_snow.amount')
+		city.weather_ann_prcp_amount = _.get(city.closest_weather_station, 'ann_prcp.amount')
+		city.weather_ann_prcp_avgnds_ge001hi_amount = _.get(city.closest_weather_station, 'ann_prcp_avgnds_ge001hi.amount')
+		city.weather_ann_snwd_avgnds_ge001wi_amount = _.get(city.closest_weather_station, 'ann_snwd_avgnds_ge001wi.amount')
+	});
+	console.log('max_miles_from_city', max_miles_from_city);
 	return cities;
 };
 
@@ -199,7 +212,6 @@ var send_res_error = function (opts) {
 		error: opts.error,
 		meta: opts.meta,
 	};
-	console.log(output);
 	opts.res.contentType('application/json');
 	opts.res.send(output);
 };
@@ -218,7 +230,56 @@ var send_res_cities_and_facets = function (opts) {
 	opts.res.send(output);
 };
 
+var query_nearest_station_from_city = function(city){
+	return Stations.aggregate([{
+		'$geoNear': {
+			near: city.location,
+			key: 'location',
+			distanceField: 'calc.miles_from_city',
+			distanceMultiplier: METER_TO_MILES,
+			spherical: true,
+			query: {
+				"ann_tmin.amount": {$exists: 1},
+				"ann_prcp.amount": {$exists: 1},
+				"ann_snow.amount": {$exists: 1},
+				"ann_snwd_avgnds_ge001wi.amount": {$exists: 1}
+			},
+			limit: 1
+		}
+	}]);
+};
+
+var load_and_merge_station_from_cities = function(cities, callback){
+	var station_promises = cities.map(query_nearest_station_from_city);
+	Promise.all(station_promises).then((station_results) => {
+		callback(merge_stations_into_cities(station_results, cities));
+	});
+};
+
 var load_weather_and_send_res_cities_and_facets = function (opts) {
+	var station_promises = opts.cities.map((city) => {
+		return query_nearest_station_from_city(city);
+	});
+
+	Promise.all(station_promises).then((station_results) => {
+		merge_stations_into_cities(station_results, opts.cities);
+		send_res_cities_and_facets({
+			res: opts.res,
+			meta: opts.meta,
+			cities: opts.cities,
+			facets: opts.facets
+		});
+	}).catch((error) => {
+		send_res_error({
+			res: opts.res,
+			meta: opts.meta,
+			error: error,
+			code: 2
+		});
+	});
+};
+
+/* var load_weather_and_send_res_cities_and_facets = function (opts) {
 	var station_promises = opts.cities.map((city) => {
 		return Stations.aggregate([{
 			'$geoNear': {
@@ -246,7 +307,7 @@ var load_weather_and_send_res_cities_and_facets = function (opts) {
 			code: 2
 		});
 	});
-};
+}; */
 
 var request_search = function (req, res) {
 
@@ -327,7 +388,8 @@ var request_get_cities = function (req, res) {
 		offset = req.query.offset ? Number(req.query.offset) : 0,
 		fields = req.query.fields ? req.query.fields : DEFAULT_CITY_FIELDS,
 		find = req.query.find ? JSON.parse(req.query.find) : {},
-		field_code = req.query.field_code ? req.query.field_code : null;
+		field_code = req.query.field_code ? req.query.field_code : null,
+		update_stations = req.query.update_stations ? Boolean(req.query.update_stations) : false;
 
 	if (field_code) {
 		fields = INCLUDED_FIELD_SETS[field_code];
@@ -345,8 +407,17 @@ var request_get_cities = function (req, res) {
 			results: normalize_cities(results)
 		};
 
-		res.contentType('application/json');
-		res.send(JSON.stringify(output));
+		if( update_stations ){
+			load_and_merge_station_from_cities(output.results, function(cities){
+				output.results = cities;
+
+				res.contentType('application/json');
+				res.send(JSON.stringify(output));
+			})
+		} else {
+			res.contentType('application/json');
+			res.send(JSON.stringify(output));
+		}
 	});
 };
 

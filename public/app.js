@@ -737,7 +737,6 @@ window.vm = new Vue({
         },
         load_compared_cities_from_api: function () {
             var self = this;
-            console.log('load_compared_cities_from_api', self.compared_city_ids);
 
             if (!self.compared_city_ids.length) {
                 self.compared_cities_from_ids = [];
@@ -747,6 +746,7 @@ window.vm = new Vue({
             axios.get('/api/cities', {
                 params: {
                     field_code: 'all',
+                    update_stations: true,
                     find: {
                         _id: self.compared_city_ids
                     }
