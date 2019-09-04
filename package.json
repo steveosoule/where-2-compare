@@ -1,41 +1,15 @@
 {
   "name": "where-2-compare",
-  "version": "0.1.0",
-  "description": "Tools & data to help compare locations across the US.",
-  "main": "index.js",
-  "scripts": {
-    "prod": "node server.js",
-    "dev": "node server.js",
-    "db": "mongod",
-    "deploy": "git push heroku master",
-    "deploy_major": "npm version major; git push --tags origin master; git push; pnpm deploy",
-    "deploy_minor": "npm version minor; git push --tags origin master; git push; pnpm deploy",
-    "deploy_patch": "npm version patch; git push --tags origin master; git push; pnpm deploy",
-    "local": "nodemon --exec \"pnpm run dev\" --signal SIGTERM"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/steveosoule/where-2-compare.git"
-  },
   "author": "me@stevensoule.com",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/steveosoule/where-2-compare/issues"
+  "license": "MIT",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "install": "run-p install:server install:app",
+    "install:server": "cd server && pnpm install",
+    "install:app": "cd app && pnpm install"
   },
-  "homepage": "https://github.com/steveosoule/where-2-compare#readme",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "compression": "^1.7.3",
-    "cors": "^2.8.5",
-    "dotenv": "^6.2.0",
-    "express": "^4.16.3",
-    "express-https-redirect": "^1.0.0",
-    "financejs": "^4.1.0",
-    "lodash": "^4.17.11",
-    "mongodb": "^3.1.6",
-    "mongoose": "^5.2.17"
-  },
-  "engines": {
-    "node": "10.x"
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
   }
 }

@@ -165,10 +165,6 @@ window.vm = new Vue({
         this.load_cities_from_api_debounced = _.debounce(this.load_cities_from_api, 750);
     },
     watch: {
-        url_settings: function(){
-            var self = this;
-            console.log('url_settings', self.url_settings);
-        },
         compared_city_ids: function () {
             var self = this;
             self.load_compared_cities_from_api();
@@ -224,7 +220,6 @@ window.vm = new Vue({
                         cities: self.compared_city_ids.join(',')
             });
             var query_string = $.param(opts);
-            console.log('url_settings', opts, query_string);
             // window.history.replaceState({}, null, '/?' + query_string);
             return query_string;
         },
