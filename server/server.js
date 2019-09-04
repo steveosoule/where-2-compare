@@ -378,9 +378,9 @@ var request_search = function (req, res) {
 
 app.get('/api/search', request_search);
 
-app.get('/api/hello', function(req, res){
+app.get('/api/status', function(req, res){
 	res.contentType('application/json');
-	res.send(JSON.stringify({foo: 'bar'}));
+	res.send(JSON.stringify({status: true}));
 });
 
 var request_get_cities = function (req, res) {

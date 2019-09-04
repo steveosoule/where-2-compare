@@ -7,9 +7,20 @@
   "scripts": {
     "install": "run-p install:server install:app",
     "install:server": "cd server && pnpm install",
-    "install:app": "cd app && pnpm install"
+    "install:app": "cd app && pnpm install",
+    
+    "local": "run-p local:server local:app",
+    "local:server": "cd server && pnpm run local",
+    "local:app": "cd app && pnpm run serve",
+
+    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then cd app && pnpm run build ; fi ",
+    "build": "cd app && pnpm run build",
+    "start": "cd server && pnpm run prod"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5"
+  },
+  "engines": {
+    "node": "12.9.0"
   }
 }

@@ -457,6 +457,8 @@ window.vm = new Vue({
 
             d3.json('/json/us.json', function (error, topo) {
 
+                // TODO: instead of topojson use topojson-client.feature:
+                // https://github.com/topojson/topojson/issues/304#issuecomment-361732774
                 var states = topojson.feature(topo, topo.objects.counties).features;
 
                 // add states from topojson
