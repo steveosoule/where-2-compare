@@ -6,8 +6,7 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "prod": "node server.js",
-    "dev": "node server.js",
+    "server": "node server.js",
     "db": "mongod",
     "deploy": "git push heroku master",
     "local": "nodemon --exec \"pnpm run dev\" --signal SIGTERM"

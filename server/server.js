@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+console.log('server/server.js NODE_ENV:', process.env.NODE_ENV);
+
 // Required Packages
 const express = require('express');
 const compression = require('compression');
