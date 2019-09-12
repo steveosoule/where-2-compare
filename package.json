@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "install": "run-p install:server install:app",
-    "install:server": "cd server && pnpm install",
-    "install:app": "cd app && pnpm install",
+    "install:server": "cd server && npm install",
+    "install:app": "cd app && npm install",
     
     "local": "run-p local:server local:app",
     "local:server": "cd server && npm run local",
