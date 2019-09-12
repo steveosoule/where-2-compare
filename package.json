@@ -13,7 +13,7 @@
     "local:server": "cd server && npm run local",
     "local:app": "cd app && npm run serve",
 
-    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then cd app && npm run build ; fi ",
+    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then cd app && npm install && npm run build ; fi ",
     "build": "cd app && npm run build",
     "start": "cd server && npm run server"
   },
