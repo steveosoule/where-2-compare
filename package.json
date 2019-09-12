@@ -8,16 +8,15 @@
     "install": "run-p install:server install:app",
     "install:server": "cd server && npm install",
     "install:app": "cd app && npm install",
-    
     "local": "run-p local:server local:app",
     "local:server": "cd server && npm run local",
     "local:app": "cd app && npm run serve",
-
     "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then cd app && npm install && npm run build ; fi ",
     "build": "cd app && npm run build",
     "start": "cd server && npm run server"
   },
   "devDependencies": {
+    "@vue/cli": "^3.11.0",
     "npm-run-all": "^4.1.5"
   },
   "engines": {
