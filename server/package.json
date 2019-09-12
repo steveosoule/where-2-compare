@@ -9,7 +9,7 @@
     "server": "node server.js",
     "db": "mongod",
     "deploy": "git push heroku master",
-    "local": "nodemon --exec \"pnpm run dev\" --signal SIGTERM"
+    "local": "nodemon --exec \"pnpm run server\" --signal SIGTERM"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

@@ -642,6 +642,6 @@ specifiers:
   express: ^4.16.3
   express-https-redirect: ^1.0.0
   financejs: ^4.1.0
-  lodash: ^4.17.11
+  lodash: ^4.17.15
   mongodb: ^3.1.6
   mongoose: ^5.2.17
