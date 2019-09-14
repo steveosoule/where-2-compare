@@ -7,7 +7,7 @@ import './scss/main.scss';
 
 Vue.config.productionTip = false
 
-console.log('hello from main.js 2019-09-11!');
+console.log('hello from main.js 2019-09-14!');
 
 new Vue({
   router,
